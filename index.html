@@ -120,14 +120,15 @@ body{
 
 .header{
   display:grid;
-  grid-template-columns:220px 1fr;
+  grid-template-columns:320px 1fr;
   gap:25px;
   align-items:center;
   margin-bottom:60px;
 }
 
 .polaroid{
-  background:white;
+  width:320px;
+  background:rgb(240, 251, 140);
   padding:12px 12px 35px;
   border-radius:10px;
   box-shadow:0 10px 20px rgba(0,0,0,0.15);
@@ -249,6 +250,38 @@ footer{text-align:center;margin-top:25px;font-size:12px;color:#888;}
   .gallery{
     grid-template-columns:repeat(2,1fr);
   }
+}
+
+.thank-popup{
+  position:fixed;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%) scale(0.8);
+  background:#ffd6e0;
+  padding:14px 22px;
+  border-radius:20px;
+  font-family:'Indie Flower',cursive;
+  font-size:18px;
+  opacity:0;
+  transition:0.4s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  z-index:9999;
+}
+
+.thank-popup.show{
+  opacity:1;
+  transform:translateX(-50%) scale(1);
+}
+
+.msgAnim{
+  animation:popIn 0.5s ease;
+  margin-bottom:6px;
+}
+
+@keyframes popIn{
+  from{transform:scale(0.6);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
 </style>
 </head>
 
@@ -434,12 +467,31 @@ footer{text-align:center;margin-top:25px;font-size:12px;color:#888;}
 
 <div id="contact" class="panel">
 <h3>Kontak Saya</h3>
-<div style="font-family:'Quicksand',cursive;font-size:16px;line-height:1.9;">
+
+<section style="font-family:'Quicksand',cursive;font-size:16px;line-height:1.9;">
   📱 No Telp: 081223753341<br>
   📧 Email: nurfadhilahhuraiyahmasayu@gmail.com<br>
   📸 Instagram: @dhila_hm<br><br>
-  Feel free to contact me..
-</div>
+
+  <article>
+    <span style="font-weight:600;">💌 Kirim Pesan Anonim</span>
+    <form id="anonForm" onsubmit="sendMessage(event)">
+      
+      <label>Pesan kamu:</label><br>
+      <textarea id="anonMsg" rows="4"
+        style="width:100%;padding:10px;border-radius:12px;
+        border:2px dashed #ffb3c6;margin-top:5px;"></textarea><br><br>
+
+      <button type="submit">Kirim Anonim ✨</button>
+    </form>
+  </article>
+
+  <article style="margin-top:20px;">
+    <span style="font-weight:600;">📥 Inbox Rahasia</span>
+    <ul id="messageList" style="margin-top:10px;"></ul>
+  </article>
+
+</section>
 </div>
 
 <footer>a'bout me © 2026</footer>
@@ -558,6 +610,67 @@ function typeWriter(){
 
 typeWriter();
 
+</script>
+<script>
+function sendMessage(event){
+  event.preventDefault();
+
+  const text = document.getElementById("anonMsg").value.trim();
+  if(text === "") return;
+
+  const messages = JSON.parse(localStorage.getItem("anonMessages") || "[]");
+
+  messages.push({
+    msg: text,
+    time: Date.now()
+  });
+
+  localStorage.setItem("anonMessages", JSON.stringify(messages));
+
+  document.getElementById("anonMsg").value = "";
+  showThankYou();
+  loadMessages();
+}
+</script>
+
+<div id="thankPopup" class="thank-popup">
+  Terimakasih Pesan Manisnya 💗
+</div>
+
+<script>
+function loadMessages(){
+  const list = document.getElementById("messageList");
+  list.innerHTML = "";
+
+  const now = Date.now();
+  const DAY = 24 * 60 * 60 * 1000;
+
+  let messages = JSON.parse(localStorage.getItem("anonMessages") || "[]");
+
+  messages = messages.filter(m => now - m.time < DAY);
+
+  localStorage.setItem("anonMessages", JSON.stringify(messages));
+
+  messages.reverse().forEach(m=>{
+    const li = document.createElement("li");
+    li.textContent = "💬 " + m.msg;
+    li.className = "msgAnim";
+    list.appendChild(li);
+  });
+}
+
+loadMessages();
+</script>
+
+<script>
+function showThankYou(){
+  const p = document.getElementById("thankPopup");
+  p.classList.add("show");
+
+  setTimeout(()=>{
+    p.classList.remove("show");
+  },2000);
+}
 </script>
 
 </body>
