@@ -229,36 +229,6 @@ footer{text-align:center;margin-top:25px;font-size:12px;color:#888;}
   }
 }
 
-.thank-popup{
-  position:fixed;
-  bottom:30px;
-  left:50%;
-  transform:translateX(-50%) scale(0.8);
-  background:#ffd6e0;
-  padding:14px 22px;
-  border-radius:20px;
-  font-family:'Indie Flower',cursive;
-  font-size:18px;
-  opacity:0;
-  transition:0.4s;
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
-  z-index:9999;
-}
-
-.thank-popup.show{
-  opacity:1;
-  transform:translateX(-50%) scale(1);
-}
-
-.msgAnim{
-  animation:popIn 0.5s ease;
-  margin-bottom:6px;
-}
-
-@keyframes popIn{
-  from{transform:scale(0.6);opacity:0;}
-  to{transform:scale(1);opacity:1;}
-}
 /* ===== SKILL GLOBAL ===== */
 .skill-grid{
   display:grid;
@@ -305,6 +275,41 @@ footer{text-align:center;margin-top:25px;font-size:12px;color:#888;}
   font-size:14px;
   line-height:1.6;
   background:#ffe9f0;
+}
+
+  .contact-box{
+  margin-top:20px;
+  padding:20px;
+  border:2px dashed #ffb6c9;
+  border-radius:18px;
+  background:#fff7fa;
+  text-align:center;
+}
+
+.contact-box h4{
+  font-family:'Indie Flower',cursive;
+  font-size:20px;
+  margin-bottom:15px;
+}
+
+.contact-btn{
+  display:block;
+  margin:10px auto;
+  padding:12px;
+  width:80%;
+  background:#ffd6e0;
+  border:2px dashed #ff9eb5;
+  border-radius:16px;
+  text-decoration:none;
+  color:#444;
+  font-family:'Indie Flower',cursive;
+  font-size:16px;
+  transition:0.3s;
+}
+
+.contact-btn:hover{
+  transform:scale(1.05);
+  background:#ffe5ec;
 }
 
 /* ===== MOBILE CLEAN LAYOUT ===== */
@@ -547,23 +552,18 @@ footer{text-align:center;margin-top:25px;font-size:12px;color:#888;}
 <span class="contact-text">📧 Email: nurfadhilahhuraiyahmasayu@gmail.com</span><br>
 <span class="contact-text">📸 Instagram: @dhila_hm</span><br><br>
 
-  <article>
-    <span style="font-weight:600;">💌 Kirim Pesan Anonim</span>
-    <form id="anonForm" onsubmit="sendMessage(event)">
-      
-      <label>Pesan kamu:</label><br>
-      <textarea id="anonMsg" rows="4"
-        style="width:100%;padding:10px;border-radius:12px;
-        border:2px dashed #ffb3c6;margin-top:5px;"></textarea><br><br>
-
-      <button type="submit">Kirim Anonim ✨</button>
-    </form>
-  </article>
-
-  <article style="margin-top:20px;">
-    <span style="font-weight:600;">📥 Inbox Rahasia</span>
-    <ul id="messageList" style="margin-top:10px;"></ul>
-  </article>
+  <article class="contact-box">
+  <h4>💌 Contact Me Here</h4>
+  <a href="https://wa.me/6281223753341" target="_blank" class="contact-btn">
+    📱 WhatsApp Me
+  </a>
+  <a href="mailto:nurfadhilahhuraiyahmasayu@gmail.com" class="contact-btn">
+    📧 Send Email
+  </a>
+  <a href="https://instagram.com/dhila_hm" target="_blank" class="contact-btn">
+    📸 Instagram DM
+  </a>
+</article>
 
 </section>
 </div>
@@ -780,6 +780,7 @@ function showThankYou(){
 
 </body>
 </html>
+
 
 
 
