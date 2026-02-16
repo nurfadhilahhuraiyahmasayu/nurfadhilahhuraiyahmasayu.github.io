@@ -716,70 +716,10 @@ function typeWriter(){
 typeWriter();
 
 </script>
-<script>
-function sendMessage(event){
-  event.preventDefault();
-
-  const text = document.getElementById("anonMsg").value.trim();
-  if(text === "") return;
-
-  const messages = JSON.parse(localStorage.getItem("anonMessages") || "[]");
-
-  messages.push({
-    msg: text,
-    time: Date.now()
-  });
-
-  localStorage.setItem("anonMessages", JSON.stringify(messages));
-
-  document.getElementById("anonMsg").value = "";
-  showThankYou();
-  loadMessages();
-}
-</script>
-
-<div id="thankPopup" class="thank-popup">
-  Terimakasih Pesan Manisnya 💗
-</div>
-
-<script>
-function loadMessages(){
-  const list = document.getElementById("messageList");
-  list.innerHTML = "";
-
-  const now = Date.now();
-  const DAY = 24 * 60 * 60 * 1000;
-
-  let messages = JSON.parse(localStorage.getItem("anonMessages") || "[]");
-
-  messages = messages.filter(m => now - m.time < DAY);
-
-  localStorage.setItem("anonMessages", JSON.stringify(messages));
-
-  messages.reverse().forEach(m=>{
-    const li = document.createElement("li");
-    li.textContent = "💬 " + m.msg;
-    li.className = "msgAnim";
-    list.appendChild(li);
-  });
-}
-
-loadMessages();
-</script>
-
-<script>
-function showThankYou(){
-  const p = document.getElementById("thankPopup");
-  p.classList.add("show");
-
-  setTimeout(()=>{
-    p.classList.remove("show");
-  },2000);
-}
-</script>
 
 </body>
 </html>
+
 
 
 
