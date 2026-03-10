@@ -1288,45 +1288,47 @@ window.onclick = function(event) {
     </div>
 
 <script>
+/* 1. FUNGSI MUSIK */
 
-    * 1. FUNGSI MUSIK */
-        const music = document.getElementById("myBgMusic");
-        const musicBtn = document.getElementById("musicToggle");
-        const musicIcon = document.querySelector(".music-icon");
+const music = document.getElementById("myBgMusic");
+const musicBtn = document.getElementById("musicToggle");
+const musicIcon = document.querySelector(".music-icon");
 
-        music.volume = 0.5; // Volume 50%
+music.volume = 0.5; // Volume 50%
 
-        function toggleMusic() {
-            if (music.paused) {
-                playMusic();
-            } else {
-                pauseMusic();
-            }
-        }
+function toggleMusic() {
+    if (music.paused) {
+        playMusic();
+    } else {
+        pauseMusic();
+    }
+}
 
-        function playMusic() {
-            music.play().catch(error => {
-                console.log("Autoplay dicegah browser, perlu klik manual.");
-            });
-            musicBtn.classList.add("playing");
-            musicIcon.innerText = "⏸️";
-        }
+function playMusic() {
+    music.play().catch(error => {
+        console.log("Autoplay dicegah browser, perlu klik manual.");
+    });
+    musicBtn.classList.add("playing");
+    musicIcon.innerText = "⏸️";
+}
 
-        function pauseMusic() {
-            music.pause();
-            musicBtn.classList.remove("playing");
-            musicIcon.innerText = "🎵";
-        }
+function pauseMusic() {
+    music.pause();
+    musicBtn.classList.remove("playing");
+    musicIcon.innerText = "🎵";
+}
 
-        // Fitur Autoplay (Musik jalan otomatis saat klik pertama kali di mana saja)
-        document.addEventListener('click', function() {
-            if (music.paused) {
-                playMusic();
-            }
-        }, { once: true });
-    </script>
+/* Autoplay saat pertama klik halaman */
+document.addEventListener("click", function () {
+    if (music.paused) {
+        playMusic();
+    }
+}, { once: true });
+
+</script>
 
 </body>
 </html>
+
 
 
