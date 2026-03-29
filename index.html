@@ -94,6 +94,55 @@
         }
         .sidebar-socials a:hover { color: var(--text-purple); transform: scale(1.2); }
 
+        /* --- PERBAIKAN SIDEBAR MOBILE --- */
+@media (max-width: 768px) {
+    /* 1. Bikin sidebar melayang di atas (Overlay) */
+    .sidebar {
+        width: 250px !important; /* Lebar yang pas buat HP */
+        position: fixed;
+        left: -250px; /* Sembunyi di kiri */
+        top: 0;
+        height: 100%;
+        z-index: 9999;
+        transition: 0.4s ease-in-out;
+        box-shadow: 10px 0 20px rgba(0,0,0,0.1);
+        background-color: white !important;
+    }
+
+    /* 2. Saat toggle aktif, sidebar muncul */
+    .sidebar.active {
+        left: 0;
+    }
+
+    /* 3. Rapikan isi sidebar agar tidak mepet */
+    .sidebar-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    /* 4. Ikon Sosmed di bawah sidebar biar rapi horizontal */
+    .social-icons {
+        margin-top: auto; /* Dorong ke paling bawah */
+        display: flex;
+        justify-content: space-around;
+        padding: 20px 0;
+        border-top: 1px solid #eee;
+    }
+
+    .social-icons a {
+        margin: 0 !important;
+        font-size: 20px;
+    }
+
+    /* 5. Cegah konten utama kegeser-geser aneh */
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
         /* --- TOP BAR --- */
         .top-bar {
             position: fixed;
