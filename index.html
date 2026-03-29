@@ -4,161 +4,216 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhila Profile</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&family=Indie+Flower&family=Bodoni+Moda:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Indie+Flower&family=Inter:wght@300;400;600&display=swap');
-
-        /* SMOOTH SCROLL */
-        html {
-            scroll-behavior: smooth;
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fde2e4, #e2f0ff, #d0c4ff);
+            --sidebar-color: #ffffff;
+            --text-purple: #7a77d1;
+            --text-brown: #5c5a58;
+            --accent-pink: #fbc6d3;
+            --sidebar-width: 200px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: linear-gradient(135deg, #fde2e4, #e2f0ff, #d0c4ff);
-            color: #444;
             font-family: 'Inter', sans-serif;
-            width: 100%;
-            overflow-x: hidden; /* Mencegah scroll ke samping */
+            background: var(--bg-gradient);
+            color: var(--text-brown);
+            overflow-x: hidden;
         }
 
-        /* 1. NAVIGASI ATAS */
-        .header-nav {
-            position: fixed; /* Berubah jadi fixed agar ikut saat di-scroll */
-            top: 40px;
-            right: 4%;
-            z-index: 100;
-        }
-
-        .menu-btn {
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--sidebar-color);
+            border-right: 1px solid rgba(0,0,0,0.05);
+            padding: 50px 30px;
             display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 0.85rem;
+            flex-direction: column;
+            position: fixed;
+            left: 0; top: 0; z-index: 1000;
+            transition: var(--transition);
+            transform: translateX(0); /* Default muncul */
+        }
+
+        .sidebar.hidden { transform: translateX(-100%);
+        }
+
+        .sidebar h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            color: var(--text-brown);
+            margin-bottom: 5px;
+        }
+
+        .sub-header {
+            font-size: 11px;
             letter-spacing: 2px;
-            color: #7b6cf6;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 50px;
             font-weight: 600;
         }
 
-        .menu-icon {
-            width: 35px;
-            height: 2px;
-            background: #7b6cf6;
-            position: relative;
+        .side-nav { list-style: none; flex-grow: 1; }
+        .side-nav li {
+            padding: 12px 0;
+            font-size: 13.5px; /* Sedikit dikecilkan agar muat satu baris */
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+            white-space: nowrap; /* Mencegah teks turun ke bawah */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Kalau tetap kepanjangan akan jadi titik-titik (...) */
         }
+        .side-nav li:hover { color: var(--text-purple); transform: translateX(5px); }
 
-        /* 2. LAYOUT UTAMA (HERO) */
-        .hero {
+        /* Ikon Ganti Teks di Sidebar */
+        .sidebar-socials {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        .sidebar-socials a {
+            color: var(--text-brown);
+            font-size: 18px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .sidebar-socials a:hover { color: var(--text-purple); transform: scale(1.2); }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            position: fixed;
+            top: 0; left: var(--sidebar-width); right: 0;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            z-index: 900;
+            transition: var(--transition);
+        }
+        .top-bar.full { left: 0; }
+
+        .top-links a {
+            text-decoration: none;
+            color: var(--text-brown);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-left: 35px;
+            transition: 0.3s;
+        }
+        .top-links a:hover { color: var(--text-purple); }
+
+        /* --- TOGGLE BUTTON --- */
+        .toggle-btn {
+            width: 44px; height: 22px;
+            background: #ffffff;
+            border-radius: 20px;
             position: relative;
-            width: 100%;
+            cursor: pointer; border: none;
+        }
+        .toggle-circle {
+            width: 16px; height: 16px;
+            background: #ffe7e7;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px; left: 4px;
+            transition: 0.3s;
+        }
+        .toggle-btn.active { background: var(--accent-pink); }
+        .toggle-btn.active .toggle-circle { left: 24px; }
+
+        /* --- HERO SECTION --- */
+        .main-content { margin-left: var(--sidebar-width); transition: var(--transition); }
+        .main-content.full { margin-left: 0; }
+
+        .hero-wrapper {
             height: 100vh;
             display: flex;
             align-items: center;
-            padding: 0 0 0 10%; 
+            padding: 0 80px;
+            position: relative;
         }
 
-        .hero-content {
-            flex: 0 0 45%; 
-            z-index: 2;
-            margin-top: -40px; 
+        .hero-text { 
+            flex: 1; 
+            z-index: 10; /* Pastikan teks di atas agar tombol bisa diklik */
+            position: relative;
+            max-width: 600px; /* Batasi lebar teks agar tidak menabrak foto */
         }
-
-        .main-title {
+        .hero-text h2 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 5vw, 4.2rem);
-            color: #7b6cf6; 
+            font-size: 70px;
+            color: var(--text-purple);
             line-height: 1.1;
             margin-bottom: 20px;
         }
 
-        .sub-title {
-            font-family: 'Bodoni Moda', serif;
-            font-size: clamp(1.2rem, 2vw, 1.8rem);
-            color: #555;
-            margin-bottom: 45px;
-            line-height: 1.4;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            background: #ffd6e0;
-            border: 2px dashed #ff9eb5;
-            padding: 14px 36px;
+        .btn-kenalan {
+            padding: 12px 30px;
+            background: #fff;
+            border: 2px dashed var(--accent-pink);
             border-radius: 50px;
+            color: var(--text-purple);
             font-weight: 600;
-            color: #7b6cf6;
-            text-decoration: none;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            box-shadow: 4px 4px 0px var(--accent-pink);
+            transition: 0.3s;
+            margin-bottom: 40px;
+            text-decoration: none;
+            display: inline-block;
         }
+        .btn-kenalan:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--accent-pink); }
 
-        .cta-btn:hover {
-            transform: translateY(-3px);
-        }
-
-        /* 3. AREA FOTO HOME */
-        .photo-section {
+       .hero-photo {
             flex: 1;
             height: 100vh;
             display: flex;
             justify-content: flex-end; 
             align-items: flex-end; 
-            position: relative;
+            position: absolute; 
+            right: -8%; /* Geser lebih ke kanan */
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1; /* Di bawah teks */
+            animation: fotoMuncul 1.5s ease-out forwards; 
+            opacity: 0; 
         }
-
-        .photo-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px; 
-            height: 100vh;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-            opacity: 0;
-            transform: translateX(40px);
-            animation: photoReveal 1.2s ease-out forwards;
-        }
-
-        .intro-profile {
+        /* --- LOGIKA GERAKAN (Taruh di bawah .hero-photo) --- */
+        @keyframes fotoMuncul {
+            0% {
+                opacity: 0;
+                transform: translateX(100px); /* Mulai dari kanan luar */
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0); /* Berhenti di posisi pas */
+            }
+                }
+        .hero-photo img {
+            height: 105%;
             width: auto;
-            height: 110%; 
-            object-fit: contain;
-            object-position: bottom right;
-            mix-blend-mode: multiply;
-            margin-right: -40px; 
+            display: block;
+            filter: drop-shadow(-20px 0 30px rgba(0,0,0,0.05));
         }
 
-        @keyframes photoReveal {
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* 4. QUOTES FOOTER */
-        .quote-footer {
-            position: absolute;
-            bottom: 40px;
-            left: 10%;
-            z-index: 5;
-            max-width: 500px;
-        }
-
-        .quote-text {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #666;
-            border-left: 2px solid #ffd6e0;
-            padding-left: 20px;
-        }
-
-        /* =========================================
-           5. SECTION BIOGRAFI (SCRAPBOOK STYLE)
-           ========================================= */
+       /* --- SCRAPBOOK SECTION (REVISI POLAROID) --- */
         .biografi-section {
             min-height: 100vh;
             padding: 100px 10%;
@@ -176,7 +231,6 @@
             gap: 60px;
             align-items: center;
         }
-
         /* Polaroid Frame */
         .polaroid-frame {
             position: relative;
@@ -215,8 +269,8 @@
         /* Kotak Teks Bio */
         .bio-card {
             background: rgba(255, 255, 255, 0.5);
-            padding: 40px;
-            border-radius: 30px;
+            padding: 20px;
+            border-radius: 10px;
             border: 2px solid #fff;
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
             position: relative;
@@ -251,331 +305,893 @@
             pointer-events: none;
         }
 
-        /* --- ANIMASI STIKER MELAYANG --- */
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-
-        .floating-sticker {
-            position: absolute;
-            z-index: 10;
-            pointer-events: none; /* Supaya tidak menghalangi klik mouse */
-            animation: float 4s ease-in-out infinite;
-            font-size: clamp(1.5rem, 5vw, 3rem); /* Ukuran menyesuaikan layar */
-            filter: drop-shadow(3px 5px 2px rgba(0,0,0,0.1));
-        }
-
-        .bottom-right-sticker {
-            position: absolute;
-            bottom: 40px;   /* Jarak dari bawah */
-            right: 50px;    /* Jarak dari kanan */
-            font-size: 4rem; /* Ukuran boneka besar & lucu */
-            transform: rotate(-10deg);
-            filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.1));
-            animation: simpleFloat 3s ease-in-out infinite;
-            z-index: 5;
-        }
-
-        @keyframes simpleFloat {
-            0%, 100% { transform: rotate(-10deg) translateY(0); }
-            50% { transform: rotate(5deg) translateY(-20px); }
-        }
-        /* --- OPTIMASI RESPONSIVE GLOBAL --- */
-        @media (max-width: 768px) {
-            section { padding: 60px 5% !important; }
-            .section-title { font-size: 2rem !important; margin-bottom: 30px !important; }
-            
-            /* Perbaikan Kolom di HP */
-            .grid-favorites { 
-                grid-template-columns: repeat(2, 1fr) !important; 
-                gap: 15px !important; 
-            }
-            
-            .fav-card { padding: 8px !important; border-radius: 12px !important; }
-            .handwritten-label { font-size: 0.8rem !important; }
-    
-         /* Hilangkan stiker yang terlalu ramai di layar kecil */
-             .mobile-hide { display: none; }
-            }
-
-        /* 1. KURSOR UTAMA (TULIP) */
-            html, body {
-                cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='20'>🌷</text></svg>"), auto !important;
-                min-height: 100vh;
-            }
-
-        /* 2. KURSOR INTERAKSI (SAKURA) */
-            a, 
-            button, 
-            .cta-btn, 
-            .menu-btn, 
-            .skill-polaroid, 
-            .fav-card-item,
-            .music-card-item,
-            iframe,
-            [role="button"] {
-                cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='20'>🌸</text></svg>"), pointer !important;
-            }
-
-        /* Khusus untuk area di dalam iframe (Spotify) agar kursor tetap Sakura */
-            .music-card-item iframe {
-                pointer-events: auto;
-            }
-
-        /* STYLE SIDEBAR */
-        .sidebar {
+        /* bagian funfact dan date time */
+        .funfact-overlay {
             position: fixed;
-            top: 0;
-            right: -100%; /* Sembunyi di kanan luar layar */
-            width: 350px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 200;
-            transition: 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            padding: 60px;
-        }
-
-        .sidebar.active {
-            right: 0; /* Muncul ke layar */
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            font-size: 1.5rem;
-            color: #7b6cf6;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .sidebar-links {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .sidebar-links a {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 1.8rem;
-            color: #444;
-            text-decoration: none;
-            transition: 0.3s;
-            position: relative;
-            width: fit-content;
-        }
-
-        .sidebar-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ffd6e0;
-            transition: 0.3s;
-        }
-
-        .sidebar-links a:hover {
-            color: #7b6cf6;
-            transform: translateX(10px);
-        }
-
-        .sidebar-links a:hover::after {
-            width: 100%;
-        }
-
-        .sidebar-footer {
-            margin-top: 50px;
-            font-size: 0.8rem;
-            opacity: 0.5;
-            letter-spacing: 1px;
-        }
-        
-                /* Container Utama */
-        .funfact-container {
-            position: fixed;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        /* Tombol Cokelat Kecil */
-        .funfact-btn {
-            width: 50px;
-            height: 50px;
-            background: #8d6e63; /* Warna cokelat sesuai gambar */
-            color: white;
-            display: flex;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none; /* Sembunyi dulu */
             justify-content: center;
             align-items: center;
-            border-radius: 12px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            font-size: 1.2rem;
-            transition: 0.3s;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
         }
-
-        .funfact-btn:hover {
-            transform: scale(1.1);
-            background: #6d4c41;
-        }
-
-        /* Notes Putihnya */
-        .funfact-note {
-            width: 250px;
+        .funfact-box {
             background: white;
-            padding: 20px;
-            margin-left: 15px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(-20px);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 30px;
+            border-radius: 20px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 3px dashed var(--accent-pink);
+            position: relative;
+        }
+        .close-btn {
+            margin-top: 15px;
+            padding: 5px 15px;
+            background: var(--text-purple);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Educational Journey */
+        .journey-section {
+            padding: 80px 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #7a77d1;
+            margin-bottom: 40px;
             text-align: center;
         }
 
-        /* Saat Notes Aktif */
-        .funfact-note.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
+        /* Kotak Kertas Putih */
+        .paper-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 900px;
+            padding: 50px;
+            border-radius: 5px;
+            box-shadow: 10px 10px 0px rgba(251, 198, 211, 0.5); /* Shadow pink kaku kyak kertas tumpuk */
+            position: relative;
+            border: 1px solid #eee;
         }
 
-        .funfact-note h4 {
-            color: #8d6e63;
+        /* Klip Kertas */
+        .paper-clip {
+            position: absolute;
+            top: -20px;
+            left: 40px;
+            font-size: 40px;
+            transform: rotate(-15deg);
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+        }
+
+        .journey-subtitle {
+            font-family: 'Indie Flower', cursive;
+            font-size: 1.8rem;
+            color: #ff8fa3;
             margin-bottom: 10px;
-            font-size: 1.2rem;
         }
 
-        .funfact-note p {
+        .dashed-line {
+            border-bottom: 2px dashed #d0c4ff;
+            margin-bottom: 30px;
+        }
+
+        /* Tabel dengan Grid */
+        .journey-table {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1.2fr;
+            gap: 25px 10px;
+            align-items: center;
+        }
+
+        .table-header {
+            font-weight: 700;
+            color: #7a77d1;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #fde2e4;
+            padding-bottom: 10px;
+        }
+
+        .table-cell {
             font-size: 0.95rem;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
+            color: #5c5a58;
+            display: flex;
+            align-items: center;
         }
 
-        /* --- POP-UP MUSIK (Kanan Bawah) --- */
-        .music-player-popup {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 10000; /* Paling depan */
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: #d0c4ff;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 12px;
         }
 
-        .music-btn {
-            width: 60px;
-            height: 60px;
-            background-color: #ffd6e0; /* Pink lembut */
-            border: 2px dashed #ff9eb5; /* Garis tepi putus-putus pink */
-            border-radius: 50%; /* Bulat sempurna */
+        /* Badge Tahun */
+        .badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge.pink {
+            background: #fde2e4;
+            color: #ff8fa3;
+        }
+
+        .badge.purple {
+            background: #d0c4ff;
+            color: #7a77d1;
+            box-shadow: 0 4px 10px rgba(122, 119, 209, 0.3);
+        }
+
+        /* Responsive untuk HP */
+        @media (max-width: 768px) {
+            .journey-table {
+                grid-template-columns: 1fr; /* Jadi satu kolom kalau di HP */
+                gap: 15px;
+            }
+            .table-header { display: none; } /* Sembunyikan header di HP */
+            .paper-container { padding: 30px 20px; }
+        }
+
+        /* bagian My Favorites */
+        .favorites-section {
+            padding: 80px 5%;
+            background: transparent;
+        }
+
+        .favorites-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Membagi dua kolom sama besar */
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Container Utama Kartu */
+        .fav-card {
+            background: #ffffff;
+            background-image: radial-gradient(#d1d1d1 0.8px, transparent 0.8px); /* Titik lebih halus */
+            background-size: 20px 20px;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Judul Favorit */
+        .fav-subtitle {
+            font-family: 'Bodoni Moda', serif;
+            color: #7a77d1;
+            font-size: 1.4rem;
+            margin-bottom: 15px; /* Jarak ke garis pink */
+        }
+
+        /* Garis Pink Aesthetic (Sekarang di bawah judul) */
+        .fav-divider {
+            width: 100%;
+            border: none;
+            border-top: 2px dashed #fbc6d3; /* Garis putus-putus pink */
+            margin-bottom: 25px; /* Jarak ke gambar-gambar */
+        }
+
+        /* Perbaikan Grid Gambar agar simetris */
+        .fav-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            align-items: start;
+        }
+
+        .item-card {
+            text-decoration: none; /* Hilangkan garis bawah link music */
+            transition: transform 0.3s ease;
+            cursor: default;
+        }
+
+        .item-card.music {
+            text-decoration: none; /* Hilangkan garis bawah link */
+            cursor: pointer;
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .item-card img {
+            width: 100%;
+            aspect-ratio: 1/1; /* Biar kotak sempurna */
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 4px solid #fff;
+        }
+
+        .item-card p {
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #7a77d1;
+            font-family: 'Bodoni Moda', serif;
+        }
+
+        /* Responsive untuk HP */
+        @media (max-width: 900px) {
+            .favorites-container { grid-template-columns: 1fr; }
+            .fav-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Bagian My Skills */
+        .skills-section {
+            padding: 80px 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 kartu berdampingan */
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            align-items: flex-start;
+        }
+
+        /* Kotak Kartu Utama (Scrapbook Look) */
+        .skill-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.02); /* Bayangan tipis kaku kyak kertas */
+            position: relative;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+
+        /* --- DEKORASI SELOTIP (Washi Tape) --- */
+        .skill-card::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%) rotate(3deg);
+            width: 120px;
+            height: 40px;
+            opacity: 0.5; /* Transparan */
+            z-index: 10;
+        }
+
+        /* Warna Selotip Beda-beda tiap kartu */
+        .skill-card.stem::before { background: #fbc6d3; border-left: 2px dashed #f8a5c2; border-right: 2px dashed #f8a5c2; } /* Pink */
+        .skill-card.design::before { background: #d0c4ff; border-left: 2px dashed #b1a2f9; border-right: 2px dashed #b1a2f9; } /* Ungu */
+        .skill-card.committee::before { background: #e2f0ff; border-left: 2px dashed #a8cfff; border-right: 2px dashed #a8cfff; } /* Biru */
+
+        /* --- KOLASE FOTO --- */
+        .collage-container {
+            position: relative;
+            width: 100%;
+            height: 250px; /* Lebar area kolase */
+            margin-bottom: -15px;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden; /* Tambahkan ini agar rotasi foto tidak bocor */
+        }
+
+        .c-photo {
+            width: 80%; /* Sedikit dikecilkan agar terlihat menumpuk */
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 6px solid #fff; /* Bingkai putih polaroid */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: absolute;
+            transition: 0.3s ease;
+        }
+
+        /* Jaga agar foto 1 di belakang, foto 3 di depan */
+        .c-photo.c2 { top: 20px; left: 10%; z-index: 2; transform: rotate(2deg); }
+
+        /* Efek Hover (Foto Lurus & Maju ke depan) */
+        .skill-card:hover .c-photo {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .skill-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #7a77d1;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .skill-info p {
+            font-size: 0.9rem;
+            color: #5c5a58;
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            padding-top: 5px;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Responsive untuk HP */
+        @media (max-width: 900px) {
+            .skills-container { grid-template-columns: 1fr; } /* Jadi satu kolom di HP */
+            .c-photo { width: 70%; height: 200px; }
+        }
+
+        /* Bagian Wireframe */
+        .wireframe-section {
+            padding: 80px 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: transparent; /* Latar soft ungunya tetap kelihatan */
+        }
+
+        .wireframe-wrapper {
+            max-width: 600px; /* Kartu dibuat lebih kecil dan compact */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wireframe-card {
+            background: #ffffff;
+            padding: 40px 30px;
+            position: relative;
+            border: 1px solid #efefef;
+            
+            /* Bayangan kertas kaku ala scrapbook */
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.02); 
+            
+            /* Kartu sedikit miring agar lebih natural */
+            transform: rotate(-2deg); 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 10px;
+        }
+
+        /* Hover Effect: Kartu jadi lurus saat mouse di atasnya */
+        .wireframe-card:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 15px 15px 25px rgba(0,0,0,0.05);
+        }
+
+        /* DEKORASI SELOTIP (Washi Tape) BIRU MUDA TRANSFARAN */
+        .tape-decor {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%) rotate(3deg);
+            width: 140px;
+            height: 40px;
+            background: rgba(173, 216, 230, 0.5); /* Biru pastel transparan */
+            border-left: 2px dashed rgba(150, 200, 220, 0.8);
+            border-right: 2px dashed rgba(150, 200, 220, 0.8);
+            z-index: 10;
+        }
+
+        .wireframe-content {
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .icon-blueprint {
+            font-size: 3rem;
+            color: #d0c4ff;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .wireframe-content h3 {
+            font-family: 'Playfair Display', serif;
+            color: #7a77d1;
+            margin-bottom: 5px;
+            font-size: 1.6rem;
+        }
+
+        /* Garis pembatas kecil warna unyu */
+        .divider-mini {
+            width: 50px;
+            height: 3px;
+            background: #fde2e4; /* Pink soft */
+            margin: 5px auto 20px auto;
+            border-radius: 10px;
+        }
+
+        .wireframe-content p {
+            font-size: 0.95rem;
+            color: #5c5a58;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* --- TOMBOL VIEW PDF (Aesthetic Button) --- */
+        .btn-view-pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background-color: #ffffff;
+            border: 2px dashed #d0c4ff; /* Bingkai putus-putus ala sketsa */
+            border-radius: 50px;
+            color: #7a77d1;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 158, 181, 0.4);
-            transition: 0.4s ease;
-            padding: 0;
-        }
-
-        .music-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(255, 158, 181, 0.6);
-        }
-
-        .music-icon {
-            font-size: 26px;
-            color: #7b6cf6; /* Warna ungu ikon not balok */
+            box-shadow: 4px 4px 0px #d0c4ff; /* Shadow kaku ala sticker */
             transition: 0.3s;
         }
 
-        /* Animasi berputar saat musik diputar */
-        .music-btn.playing {
-            animation: pulseRotate 4s linear infinite;
+        .btn-view-pdf:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #d0c4ff;
+            background-color: #f9f9ff;
         }
 
-        @keyframes pulseRotate {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.05) rotate(180deg); }
-            100% { transform: scale(1) rotate(360deg); }
+        .btn-view-pdf i {
+            font-size: 1.2rem;
         }
 
-        .music-btn.playing {
-            animation: pulse 2s infinite;
+        /* footer web */
+        .footer-aesthetic {
+            padding: 40px 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent; /* Tetap menyatu dengan background utama */
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .footer-content {
+            text-align: center;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* Responsive Sidebar */
-        @media (max-width: 500px) {
-            .sidebar { width: 100%; padding: 40px; }
-            .sidebar-links a { font-size: 1.5rem; }
+        .footer-content p {
+            color: #7a77d1; /* Warna ungu khas kamu */
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 5px 0;
+            letter-spacing: 0.5px;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .hero { flex-direction: column-reverse; padding-top: 100px; text-align: center; height: auto; }
-            .scrapbook-container { grid-template-columns: 1fr; }
-            .polaroid-frame { max-width: 300px; margin: 0 auto; }
-            .quote-footer { position: relative; left: 0; margin-top: 30px; }
+        .footer-subtext {
+            font-size: 0.8rem !important;
+            color: #b1a2f9 !important; /* Ungu lebih muda */
+            font-style: italic;
+            opacity: 0.8;
         }
+
+        /* Biar responsive di HP */
+        @media (max-width: 600px) {
+            .footer-aesthetic {
+                padding: 30px 0;
+            }
+            .footer-content p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Portofolio */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(122, 119, 209, 0.2);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- MODAL PAPER (Background Bunga) --- */
+        .modal-paper {
+            background-color: #fff;
+            /* Lapisan putih transparan (0.7) agar teks terbaca jelas di atas bunga */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), 
+                            url('https://i.pinimg.com/avif/1200x/8b/78/e8/8b78e8b4b442eb526ad95ebf772a85c5.avf');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: no-repeat;
+            
+            width: 90%;
+            max-width: 720px; /* Ukuran diturunkan agar lebih pas di layar */
+            padding: 40px 20px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 15px 15px 0px rgba(161, 110, 137, 0.2); 
+            transform: rotate(-0.5deg); /* Miring kertas utama sangat tipis */
+            animation: openJournal 0.4s ease-out;
+        }
+
+        @keyframes openJournal {
+            from { transform: scale(0.8) rotate(-3deg); opacity: 0; }
+            to { transform: scale(1) rotate(-0.5deg); opacity: 1; }
+        }
+
+        /* --- JUDUL & HEADER --- */
+        .handwritten-title {
+            font-family: 'Playfair Display', serif;
+            color: #7a77d1;
+            font-size: 30px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        /* --- GALLERY GRID --- */
+        .scrapbook-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 35px; /* Jarak antar poster */
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        /* --- ITEM POSTER --- */
+        .gallery-item.h-poster {
+            width: 220px; /* Lebar poster diperkecil agar proporsional */
+            text-align: center;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .polaroid-frame {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+            position: relative;
+            z-index: 2;
+        }
+
+        .polaroid-frame img {
+            width: 100%;
+            height: 320px; /* Tinggi vertikal panjang tapi pas */
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .caption {
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            font-size: 16px;
+            color: #7a77d1;
+            margin-top: 15px;
+        }
+
+        /* --- ROTASI HALUS (Biar Gak Jelek) --- */
+        .p1 { transform: rotate(-2deg); }
+        .p2 { transform: rotate(2.5deg); margin-top: 12px; }
+
+        .gallery-item:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 10;
+        }
+
+        /* --- SELOTIP (Washi Tape) --- */
+        .washi-tape-pink, .washi-tape-blue {
+            position: absolute; 
+            top: -12px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 75px; 
+            height: 25px; 
+            z-index: 10; 
+            opacity: 0.8;
+        }
+        .washi-tape-pink { background: #fde2e4; transform: translateX(-50%) rotate(3deg); }
+        .washi-tape-blue { background: #add8e6; transform: translateX(-50%) rotate(-2deg); }
+
+        /* --- CLOSE BUTTON --- */
+        .close-modal {
+            position: absolute; 
+            right: 20px; 
+            top: 15px;
+            font-size: 30px; 
+            color: #7a77d1; 
+            cursor: pointer;
+        }
+
+        /* Campus life */
+        .modal-overlay {
+            display: none; /* Default sembunyi */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .campus-paper {
+            background-color: #C1E4F7 !important; /* Warna Biru Muda */
+            max-width: 850px !important;
+        }
+
+        .scroll-container {
+            width: 100%;
+            overflow-x: auto; /* Scroll ke samping */
+            padding: 20px 0;
+            scrollbar-width: none; /* Hilangkan bar scroll di Firefox */
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none; /* Hilangkan bar scroll di Chrome/Safari */
+        }
+
+        .scroll-wrapper {
+            display: flex;
+            gap: 25px;
+            padding: 0 20px;
+        }
+
+       .campus-card {
+    flex: 0 0 auto;
+    width: 260px; /* Ukuran foto yang pas */
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Bingkai Foto Ala Polaroid */
+.card-frame {
+    background: white;
+    padding: 12px 12px 35px 12px; /* Bagian bawah lebih tebal buat space tulisan */
+    border-radius: 2px; /* Polaroid asli biasanya agak siku */
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-frame img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover; /* Tetap full tapi proporsional */
+    object-fit-position: top center; /* Kepala aman, gak bakal kepotong! */
+    border: 1px solid #eee;
+}
+
+        /* Efek miring scrapbook */
+        .c1 { transform: rotate(-2deg); }
+        .c2 { transform: rotate(2deg); margin-top: 10px; }
+        .c3 { transform: rotate(-1deg); }
+        .c4 {transform: rotate (-2deg);}
+        .c5 {transform: rotate(2deg); margin-top: 10px; }
+        .c6 {transform: rotate(-1deg); }
+        .c7 {transform: rotate (-2deg);}
+        .c8 {transform: rotate(2deg); margin-top: 10px; }
+        .c9 {transform: rotate(-1deg); }
+        .c10 {transform: rotate (-2deg);}
+
+        .campus-card:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 5;
+        }
+
+        .btn-back-home {
+            font-family: 'Inter', sans-serif; 
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase; /* Agar terlihat rapi dan tegas */
+            background-color: #7a77d1; /* Warna ungu kamu */
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+
+        /* Tambahkan efek hover agar konsisten dengan kursor Sakura */
+        .btn-back-home:hover {
+            background-color: #6663b8; /* Ungu sedikit gelap pas disentuh */
+            transform: scale(1.05);
+        }
+
+        /* Style Tulisan Swipe Photo */
+        .swipe-instruction {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin: 15px 0;
+            color: #7a77d1; /* Warna ungu khas kamu */
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* Garis kecil di bawah tulisan swipe */
+        .swipe-line {
+            width: 40px;
+            height: 2px;
+            background: #7a77d1;
+            border-radius: 2px;
+            animation: slideLine 1.5s ease-in-out infinite;
+        }
+
+        /* Animasi garis biar makin interaktif */
+        @keyframes slideLine {
+            0% { transform: translateX(-10px); width: 20px; }
+            50% { transform: translateX(10px); width: 40px; }
+            100% { transform: translateX(-10px); width: 20px; }
+        }
+
+        /* Bagian Musik*/
+        .music-btn.playing .music-icon {
+            display: inline-block;
+            animation: rotateMusic 2s linear infinite;
+        }
+
+        @keyframes rotateMusic {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Biar tombolnya aesthetic di pojok */
+        .music-player-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .music-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: #fde2e4; /* Pink soft sesuai tema kamu */
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 20px;
+        }
+
+        /* Bagian Kursor*/
+        /* 1. KURSOR UTAMA (TULIP 🌷) */
+        html, body {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='20'>🌷</text></svg>"), auto !important;
+        }
+
+        /* 2. KURSOR INTERAKSI (SAKURA 🌸) */
+        a, 
+        button, 
+        .sidebar a,
+        .close-btn,
+        .music-btn,
+        .social-icons a, /* Class ikon sosmed kamu */
+        [onclick] {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='20'>🌸</text></svg>"), pointer !important;
+            position: relative; /* Penting untuk area virtual */
+        }
+
+        /* 3. TRIK AREA SENSITIF (Tanpa nambah Jarak/Space) */
+        /* Kita bikin kotak transparan di sekitar ikon biar Sakura gampang muncul */
+        a::after, 
+        button::after,
+        .social-icons a::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            bottom: -10px;
+            left: -10px;
+            right: -10px;
+        }
+
+        /* 4. PERBAIKI JARAK SOSMED (Biar Gak Berantakan) */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Atur jarak antar ikon di sini saja */
+            align-items: center;
+        }
+
+        .social-icons a {
+            display: flex;
+            padding: 0 !important; /* Hapus padding yang tadi bikin renggang */
+            margin: 0;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .hero-wrapper { flex-direction: column; text-align: center; padding: 100px 20px; }
+            .hero-photo img { height: 50vh; }
+            .scrapbook-section { flex-direction: column; padding: 50px 20px; }
+            .photo-frame img { width: 280px; height: auto; }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="funfact-container">
-    <div class="funfact-btn" onclick="toggleFunFact()">
-        <i class="fas fa-lightbulb"></i> 🎨
-    </div>
-
-    <div class="funfact-note" id="funFactNote">
-        <h4>Fun Fact 💭</h4>
-        <p>🌙 Mood: aesthetic tapi suka ketawa receh.</p>
-    </div>
-
-</div>
-    <nav class="header-nav">
-        <div class="menu-btn">
-            <div class="menu-icon"></div>
-            <span>MENU</span>
+        <aside class="sidebar" id="sidebar">
+        <div id="datetime-container" style="margin-bottom: 25px; border-bottom: 1px dashed #ddd; padding-bottom: 15px;">
+            <p id="current-date" style="font-size: 12px; font-weight: 600; color: #7a77d1; margin-bottom: 2px;"></p>
+            <p id="current-time" style="font-size: 11px; color: #999; letter-spacing: 1px;"></p>
         </div>
+
+        <h1>Dhila</h1>
+        <p class="sub-header">Information System</p>
+        
+        <ul class="side-nav">
+            <li onclick="location.href='#aboutme'">✨ About Me</li>
+            <li onclick="location.href='#journey'">📖 Education</li> 
+            <li onclick="location.href='#My favorites'">🌸 My Favorites</li>
+            <li onclick="location.href='#My skills'">🎨 My Skills</li>
+            <li onclick="location.href='#wireframe'">📐 Wireframe</li>
+        </ul>
+
+        <button onclick="showFunFact()" style="width: 100%; padding: 10px; background: #fde2e4; border: 1px solid #fbc6d3; border-radius: 8px; color: #7a77d1; font-family: 'Inter'; font-size: 12px; font-weight: 600; cursor: pointer; margin: 20px 0; transition: 0.3s;">
+            💡 Fun Fact!
+        </button>
+
+        <div class="sidebar-socials">
+            <a href="mailto:nurafdhilahhuraiyahmasayu@gmail.com"><i class="fa-regular fa-envelope"></i></a>
+            <a href="https://instagram.com/dhila_hm"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://nurfadhilahhuraiyahmasayu.github.io/"><i class="fa-brands fa-github"></i></a>
+            <a href="https://wa.me/6281223753341"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+    </aside>
+
+    <header class="top-bar" id="topBar">
+        <button class="toggle-btn" id="toggleBtn" onclick="toggleMenu()">
+            <div class="toggle-circle"></div>
+        </button>
+        
+        <nav class="top-links">
+        <a href="#">Home</a>
+        <a href="#portfolio-pop" id="open-portfolio">Portofolio</a> 
+        <a href="#campuslife-pop" id="open-campuslife">Campus Life</a>
     </nav>
+    </header>
 
-    <main class="hero">
-        <section class="hero-content">
-            <h1 class="main-title">Nurfadhilah<br>Huraiyah Masayu</h1>
-            <h2 class="sub-title">Information System<br>Let's see and Know Me✨</h2>
-            <a href="#aboutme" class="cta-btn">Kenalan Yuk🌸</a>
-        </section>
+    <main class="main-content" id="mainContent">
+        <section class="hero-wrapper">
+            <div class="hero-text">
+                <h2>Nurfadhilah<br>Huraiyah<br>Masayu</h2>
+                <p style="font-size: 20px; margin-bottom: 25px; font-family: Bodoni Moda, serif;">Let's see and Know Me ✨</p>
+                
+                <a href="#aboutme" class="btn-kenalan">Kenalan Yuk 🌸</a>
 
-        <section class="photo-section">
-            <div class="photo-container">
-                <img src="assets/91e91d3d-1c18-455f-89d4-b5818855c73d.png" class="intro-profile" alt="Profile Photo">
+                <div style="border-left: 2px solid var(--accent-pink); padding-left: 20px; font-family: Bodoni Moda; color: #888;">
+                    "Where curiosity meets calm, silence guards the most beautiful truths... ˚˖𓍢ִႋ🌷͙֒✧🩷˚.🎀༘⋆🍒"
+                </div>
+            </div>
+
+            <div class="hero-photo">
+                <img src="assets/91e91d3d-1c18-455f-89d4-b5818855c73d.png" alt="Nurfadhilah">
             </div>
         </section>
 
-        <footer class="quote-footer">
-            <div class="quote-text">
-                "Where curiosity meets calm, silence guards the most beautiful truths... ˚˖𓍢ִႋ🌷͙֒✧🩷˚.🎀༘⋆🍒"
-            </div>
-        </footer>
-    </main>
-
-    <section id="aboutme" class="biografi-section">
+       <section id="aboutme" class="biografi-section">
         <div class="scrapbook-container">
             
             <div class="polaroid-frame">
@@ -596,739 +1212,467 @@
                 
                 <span class="handwritten">"Let's grow and shine together... 🎀"</span>
                 <span class="sticker" style="bottom: -10px; left: -20px;">🍓</span>
-            </div>
+               </div>
 
         </div>
     </section>
 
-    <section id="education" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 80px 5%;">
+    <section id="journey" class="journey-section">
+    <h2 class="section-title">Educational Journey</h2>
+    
+    <div class="paper-container">
+        <div class="paper-clip">📎</div>
         
-        <h3 class="section-title">Educational Journey</h3>
-        
-        <div class="edu-paper-stack">
-            <div class="paper-clip">📎</div>
+        <h3 class="journey-subtitle">Riwayat Pendidikan 📖</h3>
+        <div class="dashed-line"></div>
+
+        <div class="journey-table">
+            <div class="table-header">Level</div>
+            <div class="table-header">Institution</div>
+            <div class="table-header">Period</div>
+
+            <div class="table-cell"><span class="dot"></span> Elementary</div>
+            <div class="table-cell">SD Putra Batam</div>
+            <div class="table-cell"><span class="badge pink">2013 - 2018</span></div>
+
+            <div class="table-cell"><span class="dot"></span> Junior High</div>
+            <div class="table-cell">SMP Putra Batam</div>
+            <div class="table-cell"><span class="badge pink">2018 - 2021</span></div>
+
+            <div class="table-cell"><span class="dot"></span> Senior High</div>
+            <div class="table-cell">MAN Batam</div>
+            <div class="table-cell"><span class="badge pink">2021 - 2024</span></div>
+
+            <div class="table-cell"><span class="dot"></span> University</div>
+            <div class="table-cell">Information System - Universitas Internasional Batam</div>
+            <div class="table-cell"><span class="badge purple">2025 - Now</span></div>
+        </div>
+    </div>
+</section>
+
+<section id="My favorites" class="favorites-section">
+    <h2 class="section-title">My Favorites</h2>
+
+    <div class="favorites-container">
+        <div class="fav-card">
+            <h3 class="fav-subtitle">My Favorite Movie 🎬</h3>
+            <div class="fav-divider"></div> 
             
-            <div class="edu-journal">
-                <div class="journal-header">
-                    <span class="handwritten-title">Riwayat Pendidikan 📖</span>
-                    <div class="dashed-line"></div>
+            <div class="fav-grid">
+                <div class="item-card">
+                    <img src="assets/strangerthings.jpg" alt="Stranger Things">
+                    <p>Stranger Things</p>
                 </div>
-
-                <table class="edu-table">
-                    <thead>
-                        <tr>
-                            <th>Level</th>
-                            <th>Institution</th>
-                            <th>Period</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="dot"></span> Elementary</td>
-                            <td>SD Putra Batam</td>
-                            <td><span class="badge">2013 - 2018</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="dot"></span> Junior High</td>
-                            <td>SMP Putra Batam</td>
-                            <td><span class="badge">2018 - 2021</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="dot"></span> Senior High</td>
-                            <td>MAN Batam</td>
-                            <td><span class="badge">2021 - 2024</span></td>
-                        </tr>
-                        <tr>
-                            <td><span class="dot"></span> University</td>
-                            <td>Information System - Universitas International Batam</td>
-                            <td><span class="badge-current">2025 - Now</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="scrap-stickers">
-                    <span class="sticker-star">⭐</span>
-                    <span class="sticker-flower">🌸</span>
+                <div class="item-card">
+                    <img src="assets/Lostinspace.jpg" alt="Lost in Space">
+                    <p>Lost In Space</p>
+                </div>
+                <div class="item-card">
+                    <img src="assets/Lovethroughaprism.jpg" alt="Love Through a Prism">
+                    <p>Love Through a Prism</p>
+                </div>
+                <div class="item-card">
+                    <img src="assets/Thewindrises.jpg" alt="The Wind Rises">
+                    <p>The Wind Rises</p>
+                </div>
+                <div class="item-card">
+                    <img src="assets/WallE.jpg" alt="Wall-E">
+                    <p>Wall-E</p>
+                </div>
+                <div class="item-card">
+                    <img src="assets/Elemental.jpg" alt="Elemental">
+                    <p>Elemental</p>
                 </div>
             </div>
         </div>
 
-        <style>
-            /* PERBAIKAN CSS EDUCATION */
-            .edu-paper-stack {
-                position: relative;
-                width: 90%;
-                max-width: 900px; /* Ukuran lebih lebar agar proporsional */
-                display: flex;
-                justify-content: center;
-                margin: 0 auto;
-            }
-
-            .edu-journal {
-                background: #ffffff;
-                padding: 60px 50px;
-                width: 100%;
-                border-radius: 4px;
-                /* Efek kertas bertumpuk yang lebih nyata */
-                box-shadow: 
-                    8px 8px 0px #ffd6e0, 
-                    16px 16px 0px #e2f0ff;
-                border: 1px solid #f0f0f0;
-                position: relative;
-                transform: rotate(-0.5deg); /* Miring sedikit saja agar estetik */
-            }
-
-            .journal-header {
-                margin-bottom: 30px;
-                text-align: left;
-            }
-
-            /* CSS untuk Judul agar sama dengan About Me */
-            .section-title {
-                font-family: 'Playfair Display', serif; /* Font yang sama dengan About Me */
-                font-size: 2.8rem;
-                color: #7b6cf6;
-                margin-bottom: 50px;
-                text-align: center;
-                letter-spacing: -1px; /* Membuatnya terlihat lebih elegan */
-            }
-
-            /* Pastikan section education punya padding yang pas agar judul di tengah */
-            .education {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                padding: 100px 5%;
-                text-align: center; /* Memastikan judul benar-benar di tengah */
-            }
-
-            .handwritten-title {
-                font-family: 'Indie Flower', cursive;
-                font-size: 2.2rem;
-                color: #ff8fa3;
-            }
-
-            .dashed-line {
-                border-top: 2px dashed #d0c4ff;
-                margin-top: 10px;
-                width: 100%;
-            }
-
-            .edu-table {
-                width: 100%;
-                border-collapse: separate;
-                border-spacing: 0 15px; /* Memberi jarak antar baris */
-            }
-
-            .edu-table th {
-                font-family: 'Playfair Display', serif;
-                color: #7b6cf6;
-                font-size: 1.4rem;
-                text-align: left;
-                padding-bottom: 10px;
-                border-bottom: 2px solid #fde2e4;
-            }
-
-            .edu-table td {
-                padding: 15px 10px;
-                font-family: 'Inter', sans-serif;
-                color: #555;
-                font-size: 1rem;
-                vertical-align: middle;
-            }
-
-            .paper-clip {
-                position: absolute;
-                top: -25px;
-                left: 20px;
-                font-size: 3.5rem;
-                z-index: 5;
-                transform: rotate(-10deg);
-                filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.1));
-            }
-
-            .dot {
-                display: inline-block;
-                width: 10px;
-                height: 10px;
-                background: #d0c4ff;
-                border-radius: 50%;
-                margin-right: 12px;
-            }
-
-            .badge, .badge-current {
-                display: inline-block;
-                padding: 6px 16px;
-                border-radius: 20px;
-                font-size: 0.85rem;
-                font-weight: 600;
-                text-align: center;
-                min-width: 110px;
-            }
-
-            .badge { background: #fde2e4; color: #ff8fa3; }
-            .badge-current { 
-                background: #d0c4ff; 
-                color: #7b6cf6; 
-                box-shadow: 0 4px 10px rgba(123, 108, 246, 0.2);
-            }
-
-            .scrap-stickers {
-                position: absolute;
-                bottom: -25px;
-                right: -10px;
-                display: flex;
-                gap: 10px;
-            }
-
-            .sticker-star { font-size: 2.5rem; transform: rotate(20deg); }
-            .sticker-flower { font-size: 3rem; transform: rotate(-15deg); }
-
-            /* Penyesuaian Mobile */
-            @media (max-width: 768px) {
-                .edu-journal { padding: 40px 20px; }
-                .edu-table th { font-size: 1.1rem; }
-                .edu-table td { font-size: 0.85rem; padding: 10px 5px; }
-                .handwritten-title { font-size: 1.8rem; }
-                .paper-clip { font-size: 2.5rem; top: -15px; }
-            }
-        </style>
-    </section>
-
-<section id="favorite" style="padding: 100px 0; background: transparent; position: relative;">
-    <div class="floating-sticker" style="top: 5%; left: 5%;">🎀</div>
-    <div class="floating-sticker mobile-hide" style="top: 15%; right: 5%; animation-delay: 1s;">✨</div>
-    <div class="floating-sticker" style="bottom: 5%; left: 10%;">🎧</div>
-    <div class="bottom-right-sticker">🧸</div>
-
-    <h3 class="section-title">My Favorites</h3>
-
-    <div class="journal-wrapper">
-        <div class="journal-page">
-            <h4 class="page-tag">My Favorite Movie 🎬</h4>
-            <div class="fav-grid-container">
-                <div class="fav-card">
-                    <div class="img-frame"><img src="assets/strangerthings.jpg" onerror="this.src='https://via.placeholder.com/150x225?text=Stranger+Things'" alt="Movie"></div>
-                    <p class="card-label">Stranger Things</p>
-                </div>
-                <div class="fav-card">
-                    <div class="img-frame"><img src="assets/Lostinspace.jpg" alt="Movie"></div>
-                    <p class="card-label">Lost In Space</p>
-                </div>
-                <div class="fav-card">
-                    <div class="img-frame"><img src="assets/Lovethroughaprism.jpg" alt="Movie"></div>
-                    <p class="card-label">Love Through a Prism</p>
-                </div>
-                <div class="fav-card">
-                    <div class="img-frame"><img src="assets/Thewindrises.jpg" alt="Movie"></div>
-                    <p class="card-label">The Wind Rises</p>
-                </div>
-                <div class="fav-card">
-                    <div class="img-frame"><img src="assets/WallE.jpg" alt="Movie"></div>
-                    <p class="card-label">Wall E</p>
-                </div>
-                <div class="fav-card">
-                    <div class="img-frame"><img src="assets/Elemental.jpg" alt="Movie"></div>
-                    <p class="card-label">Elemental</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="journal-spine"></div>
-
-        <div class="journal-page">
-    <h4 class="page-tag">My Favorite Music 🎵</h4>
-    <div class="fav-grid-container">
         <div class="fav-card">
-            <a href="https://open.spotify.com/track/13T1nG7nwaoF8EUUwAQnlp?si=ac85d125e3594a72" target="_blank" class="fav-link">
-                <div class="img-frame">
-                    <img src="assets/Lagu1.jpg" alt="Song">
-                </div>
-                <p class="card-label">You're Still Everything</p>
-            </a>
-        </div>
+            <h3 class="fav-subtitle">My Favorite Music 🎵</h3>
+            <div class="fav-divider"></div> 
 
-        <div class="fav-card">
-            <a href="https://open.spotify.com/track/7zku2rvsa345C0kwQ4OEyZ?si=dc54e733c958403b" target="_blank" class="fav-link">
-                <div class="img-frame">
+            <div class="fav-grid">
+                <a href="https://open.spotify.com/track/13T1nG7nwaoF8EUUwAQnlp?si=ac85d125e3594a72" target="_blank" class="item-card music">
+                    <img src="assets/Lagu1.jpg"Song">
+                    <p>You're Still Everything</p>
+                </a>
+                <a href="https://open.spotify.com/track/7zku2rvsa345C0kwQ4OEyZ?si=dc54e733c958403" target="_blank" class="item-card music">
                     <img src="assets/Lagu2.jpg" alt="Song">
-                </div>
-                <p class="card-label">Pretty</p>
-            </a>
-        </div>
-
-        <div class="fav-card">
-            <a href="https://open.spotify.com/track/3taCbWWTilb7eNMsAzOBq4?si=c72918e084e54f66" target="_blank" class="fav-link">
-                <div class="img-frame">
+                    <p>Pretty</p>
+                </a>
+                <a href="https://open.spotify.com/track/3taCbWWTilb7eNMsAzOBq4?si=c72918e084e54f66" target="_blank" class="item-card music">
                     <img src="assets/Lagu7.png" alt="Song">
-                </div>
-                <p class="card-label">Radio</p>
-            </a>
-        </div>
-
-        <div class="fav-card">
-            <a href="https://open.spotify.com/track/2Kerz9H9IejzeIpjhDJoYG?si=17c2297ed6424122" target="_blank" class="fav-link">
-                <div class="img-frame">
+                    <p>Radio</p>
+                </a>
+                <a href="https://open.spotify.com/track/2Kerz9H9IejzeIpjhDJoYG?si=17c2297ed6424122" target="_blank" class="item-card music">
                     <img src="assets/Lagu8.png" alt="Song">
-                </div>
-                <p class="card-label">Love</p>
-            </a>
+                    <p>Love</p>
+                </a>
+                <a href="https://open.spotify.com/track/214nt20w5wOxJnY462klLw?si=825a270bdde24904" target="_blank" class="item-card music">
+                    <img src="assets/Lagu9.png" alt="Song">
+                    <p>Miss Americana</p>
+                </a>
+                <a href="https://open.spotify.com/track/4NioO5R9sHEZh4cGzMHyNt?si=de45110bc6af48a5" target="_blank" class="item-card music">
+                    <img src="assets/Lagu9.png" alt="Song">
+                    <p>Say Don't Go</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="My skills" class="skills-section">
+    <h2 class="section-title">My Creative Skills</h2>
+
+    <div class="skills-container">
+        <div class="skill-card stem">
+            <div class="collage-container">
+                <img src="assets/Experience1.jpeg" class="c-photo c2" alt="STEM Project">
+            </div>
+            <div class="skill-info">
+                <h3>STEM Project</h3>
+                <p>🎓 Pengalaman Project STEM (CoSpace animation, Figma, Poster)</p>
+            </div>
         </div>
 
-        <div class="fav-card">
-            <a href="https://open.spotify.com/track/214nt20w5wOxJnY462klLw?si=825a270bdde24904" target="_blank" class="fav-link">
-                <div class="img-frame">
-                    <img src="assets/Lagu9.png" alt="Song">
-                </div>
-                <p class="card-label">Miss Americana & The Heartbreak Prince</p>
-            </a>
+        <div class="skill-card design">
+            <div class="collage-container">
+                <img src="assets/Experience2.jpeg" class="c-photo c2" alt="Young Graphic Design Training">
+            </div>
+            <div class="skill-info">
+                <h3>Young Graphic Design Training</h3>
+                <p>📌 Pelatihan Desain grafis (Adobe Photoshop, CorelDraw, Canva, Desain Brief)</p>
+            </div>
         </div>
 
-        <div class="fav-card">
-            <a href="https://open.spotify.com/track/4NioO5R9sHEZh4cGzMHyNt?si=de45110bc6af48a5" target="_blank" class="fav-link">
-                <div class="img-frame">
-                    <img src="assets/Lagu9.png" alt="Song">
+        <div class="skill-card committee">
+            <div class="collage-container">
+                <img src="assets/Experience3.jpeg" class="c-photo c2" alt="Committee">
+            </div>
+            <div class="skill-info">
+                <h3>Committee</h3>
+                <p>🚀 Panitia (Desain, Administrasi, Edukasi)</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="wireframe" class="wireframe-section">
+    <h2 class="section-title">My Wireframe</h2>
+    
+    <div class="wireframe-wrapper">
+        <div class="wireframe-card">
+            <div class="tape-decor"></div>
+            
+            <div class="wireframe-content">
+                <div class="icon-blueprint">📐</div>
+                
+                <div class="divider-mini"></div>
+                
+                <p>
+                    Wireframe ini merupakan kerangka awal desain yang menampilkan susunan elemen secara terstruktur dengan pendekatan visual scrapbook. Setiap komponen dirancang untuk menjaga keseimbangan antara fungsi dan estetika, sehingga menghasilkan pengalaman pengguna yang nyaman dan menarik.
+                </p>
+                
+                <a href="assets/WireframeNurfadhilahHuraiyahMasayu_2531159.pdf" target="_blank" class="btn-view-pdf">
+                    <i class="fa-regular fa-file-pdf"></i> View Wireframe PDF
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer-aesthetic">
+    <div class="footer-content">
+        <p>© 2026 Nurfadhilah. All Rights Reserved.</p>
+        <p class="footer-subtext">a'bout Me, Dhila's journal</p>
+    </div>
+</footer>
+
+    <script>
+        function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const topBar = document.getElementById('topBar');
+    const mainContent = document.getElementById('mainContent');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    // Menambah/menghapus class hidden
+    sidebar.classList.toggle('hidden');
+    
+    // Menyesuaikan margin konten saat sidebar hilang
+    if (sidebar.classList.contains('hidden')) {
+        topBar.style.left = "0";
+        mainContent.style.marginLeft = "0";
+        toggleBtn.classList.add('active');
+    } else {
+        topBar.style.left = "var(--sidebar-width)";
+        mainContent.style.marginLeft = "var(--sidebar-width)";
+        toggleBtn.classList.remove('active');
+    }
+}
+
+// FUNGSI UPDATE TANGGAL & WAKTU
+function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    
+    // Format Indonesia
+    document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
+    document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
+// Jalankan waktu tiap detik
+setInterval(updateDateTime, 1000);
+updateDateTime();
+
+// FUNGSI POP UP FUN FACT DENGAN KOLASE FOTO (DIPERBARUI)
+function showFunFact() {
+    // Membuat element pop up secara otomatis
+    const overlay = document.createElement('div');
+    overlay.className = 'funfact-overlay';
+    overlay.id = 'funfactOverlay';
+    overlay.style.display = 'flex';
+    
+    // -- KOLASE FOTO (Tentukan 3 URL Fotomu di Sini) --
+    // Ganti URL dengan foto perjalanan/hobi kamu agar lebih personal
+    const photo1 = 'assets/Photo1pantai.jpeg'; 
+    const photo2 = 'assets/Photo1langit.jpeg'; // Contoh kalau yang satu formatnya png
+    const photo3 = 'assets/Photo3pantai.jpeg';
+
+    overlay.innerHTML = `
+        <div class="funfact-box" style="width: 380px;"> <span style="font-size: 30px; display: block; margin-bottom: 10px;">🏝️🌊</span>
+            <h3 style="font-family: 'Playfair Display'; color: #7a77d1; margin: 10px 0 20px 0; font-size: 24px;">Did You Know?</h3>
+            
+            <div class="photo-collage" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; position: relative;">
+                
+                <img src="${photo1}" alt="Dhila at beach" style="width: 100px; height: 130px; object-fit: cover; border: 5px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transform: rotate(-8deg); transition: 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.1) rotate(0deg)'" onmouseout="this.style.transform='rotate(-8deg)'">
+                
+                <img src="${photo2}" alt="Sunrise view" style="width: 110px; height: 140px; object-fit: cover; border: 5px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-top: -10px; z-index: 2; transform: rotate(2deg); transition: 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.1) rotate(0deg)'" onmouseout="this.style.transform='rotate(2deg)'">
+                
+                <img src="${photo3}" alt="Travel camera" style="width: 100px; height: 130px; object-fit: cover; border: 5px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transform: rotate(10deg); transition: 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.1) rotate(0deg)'" onmouseout="this.style.transform='rotate(10deg)'">
+                
+                <span style="position: absolute; bottom: -15px; right: -10px; font-size: 30px; transform: rotate(20deg);">🌸</span>
+            </div>
+
+            <p style="font-size: 14px; color: #555; line-height: 1.6;">“Di balik indahnya sunset, ada momen di mana matahari “berpamitan”, meninggalkan langit dengan warna hangat yang hanya bisa dinikmati sesaat.🌅🌊”</p>
+            
+            <button class="close-btn" style="margin-top: 25px;" onclick="document.body.removeChild(this.parentElement.parentElement)">TUTUP 🎀</button>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const modal = document.getElementById("portofolioModal");
+    const btn = document.getElementById("open-portfolio");
+    const span = document.querySelector(".close-modal");
+
+    // Buka Modal
+    btn.onclick = function(e) {
+        e.preventDefault();
+        modal.style.display = "flex";
+    }
+
+    // Tutup pakai X
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Tutup kalau klik luar area modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const campusModal = document.getElementById('campuslife-pop');
+    const btnOpenCampus = document.getElementById('open-campuslife');
+    const btnBackHome = document.getElementById('back-home-campus');
+
+    if(btnOpenCampus && campusModal) {
+        btnOpenCampus.onclick = function(e) {
+            e.preventDefault();
+            console.log("Tombol Campus Life diklik!"); // Cek di Inspect Element > Console
+            campusModal.style.display = "flex";
+        };
+    }
+
+    if(btnBackHome) {
+        btnBackHome.onclick = function() {
+            campusModal.style.display = "none";
+        };
+    }
+});
+
+// 1. FUNGSI UTAMA UNTUK TOMBOL (Bisa Play & Pause)
+function toggleMusic() {
+    const music = document.getElementById("myBgMusic");
+    const btn = document.getElementById("musicToggle");
+    const icon = btn.querySelector(".music-icon");
+
+    if (music.paused) {
+        music.play();
+        icon.innerText = "⏸️";
+        btn.classList.add("playing");
+    } else {
+        music.pause();
+        icon.innerText = "🎵";
+        btn.classList.remove("playing");
+    }
+}
+
+// 2. FUNGSI AUTOPLAY (Jalan pas user klik mana saja pertama kali)
+document.addEventListener('click', function() {
+    const music = document.getElementById("myBgMusic");
+    const btn = document.getElementById("musicToggle");
+    const icon = btn.querySelector(".music-icon");
+
+    // Jika musik belum jalan, kita jalankan otomatis
+    if (music.paused) {
+        music.play().then(() => {
+            icon.innerText = "⏸️";
+            btn.classList.add("playing");
+        }).catch(error => {
+            console.log("Autoplay dicegah, butuh interaksi user.");
+        });
+    }
+}, { once: true }); // Tetap pakai once: true agar tidak mengganggu klik selanjutnya
+    </script>
+
+<div id="portofolioModal" class="modal-overlay">
+    <div class="modal-paper">
+        <span class="close-modal">&times;</span>
+        
+        <div class="tape-header"></div>
+        
+        <div class="modal-content">
+            <h2 class="handwritten-title">My Creative Works ✨</h2>
+            <p style="color: #666; font-size: 13px; margin-bottom: 30px;">Some of my design journey...</p>
+
+            <div class="scrapbook-gallery">
+                <div class="gallery-item p1 h-poster">
+                    <div class="washi-tape-pink"></div>
+                    <div class="polaroid-frame">
+                        <img src="assets/Poster Konser Kampus Nurfadhilah H.jpg" alt="Poster Design">
+                        <p class="caption">Design Poster</p>
+                    </div>
                 </div>
-                <p class="card-label">Say Don't Go</p>
-            </a>
+
+                <div class="gallery-item p2 h-poster">
+                    <div class="washi-tape-blue"></div>
+                    <div class="polaroid-frame">
+                        <img src="assets/WhatsApp Image 2026-03-27 at 15.38.04.jpeg" alt="UI Design">
+                        <p class="caption">UI/UX Design</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
-
-    .journal-wrapper {
-        display: flex;
-        max-width: 1000px; /* Ukuran ideal buku */
-        margin: 20px auto;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        border: 1px solid #ddd;
-    }
-
-    .journal-page {
-        flex: 1;
-        padding: 30px 20px;
-        background-image: radial-gradient(#e5e5e5 1.2px, transparent 1.2px);
-        background-size: 20px 20px;
-        min-width: 0; /* Mencegah konten meluap */
-    }
-
-    .page-tag {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.2rem;
-        color: #6a5acd;
-        text-align: center;
-        margin-bottom: 25px;
-        border-bottom: 2px dashed #ffb6c1;
-        padding-bottom: 8px;
-    }
-
-    /* KUNCI PERAPIHAN: Grid 3 Kolom */
-    .fav-grid-container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); 
-        gap: 15px;
-        align-items: start;
-    }
-
-    .fav-card {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .fav-link {
-        text-decoration: none;
-        color: inherit;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* Kursor Tulip */
-        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:24px'><text y='50%'>🌷</text></svg>"), pointer;
-    }
-
-    /* Memaksa semua kotak ukuran 1:1 (Square) */
-    .img-frame {
-        width: 100%;
-        aspect-ratio: 1 / 1; 
-        background: #fdfdfd;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 3px solid white;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
-    }
-
-    .img-frame img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Gambar tidak akan penyet */
-    }
-
-    .fav-card:hover .img-frame {
-        transform: rotate(-2deg) scale(1.05);
-    }
-
-    .card-label {
-        font-family: 'Playfair Display', serif;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-top: 8px;
-        text-align: center;
-        color: #6a5acd;
-        /* Mencegah teks berantakan */
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        width: 100%;
-    }
-
-    .journal-spine {
-        width: 20px;
-        background: linear-gradient(to right, #f0f0f0, #fff, #f0f0f0);
-        border-left: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-    }
-
-    /* RESPONSIF HP */
-    @media (max-width: 768px) {
-        .journal-wrapper { flex-direction: column; width: 95%; }
-        .fav-grid-container { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .journal-spine { width: 100%; height: 10px; }
-        .img-frame { border-width: 2px; }
-    }
-    </style>
-</section>
-
-<section id="skill" style="padding: 100px 5%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+<div id="campuslife-pop" class="modal-overlay">
+    <div class="modal-paper campus-paper">
         
-        <h3 class="section-title">My Creative Skills</h3>
+        <div class="modal-content">
+            <h2 class="handwritten-title">Campus Life 🏫</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">A little bit of my journey at UIB...</p>
 
-        <div class="skill-container-row">
-            <div class="skill-polaroid">
-                <div class="washi-tape"></div>
-                <div class="photo-frame">
-                    <img src="assets/Experience1.jpeg" alt="UI Design">
-                </div>
-                <div class="skill-info">
-                    <h4 class="skill-label">STEM Project</h4>
-                    <p class="skill-desc">🎓 Pengalaman Project STEM (CoSpace animation, Figma, Poster)</p>
+            <div class="swipe-instruction">
+        <i class="fa-solid fa-arrows-left-right"></i> 
+        <span>Swipe Photo</span>
+        <div class="swipe-line"></div>
+    </div>
+
+            <div class="scroll-container">
+                <div class="scroll-wrapper">
+                    
+                    <div class="campus-card c1">
+                        <div class="washi-tape-pink"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife1.jpeg" alt="Campus 1">
+                        </div>
+                    </div>
+
+                    <div class="campus-card c2">
+                        <div class="washi-tape-blue"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife2.jpeg" alt="Campus 2">
+                        </div>
+                    </div>
+
+                    <div class="campus-card c3">
+                        <div class="washi-tape-pink"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife3.jpeg" alt="Campus 3">
+                        </div>
+                    </div>
+
+                    
+                    <div class="campus-card c4">
+                        <div class="washi-tape-pink"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife4.jpeg" alt="Campus 1">
+                        </div>
+                    </div>
+
+                    <div class="campus-card c5">
+                        <div class="washi-tape-blue"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife5.jpeg" alt="Campus 2">
+                        </div>
+                    </div>
+
+                    <div class="campus-card c6">
+                        <div class="washi-tape-pink"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife6.jpeg" alt="Campus 3">
+                        </div>
+                    </div>
+
+                    <div class="campus-card c7">
+                        <div class="washi-tape-pink"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife7.jpeg" alt="Campus 1">
+                        </div>
+                    </div>
+
+                    <div class="campus-card c8">
+                        <div class="washi-tape-blue"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife8.jpeg" alt="Campus 2">
+                        </div>
+                    </div>
+
+                    <div class="campus-card c9">
+                        <div class="washi-tape-pink"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife9.jpeg" alt="Campus 3">
+                        </div>
+                    </div>
+
+                    <div class="campus-card c10">
+                        <div class="washi-tape-pink"></div>
+                        <div class="card-frame">
+                            <img src="assets/Campuslife10.jpeg" alt="Campus 1">
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="skill-polaroid">
-                <div class="washi-tape color-blue"></div>
-                <div class="photo-frame">
-                    <img src="assets/Experience2.jpeg" alt="Web Dev">
-                </div>
-                <div class="skill-info">
-                    <h4 class="skill-label">Young Graphic Design Training</h4>
-                    <p class="skill-desc">📌 Pelatihan Desain grafis (Adobe Photoshop, CorelDraw, Canva, Desain Brief)</p>
-                </div>
-            </div>
-
-            <div class="skill-polaroid">
-                <div class="washi-tape color-purple"></div>
-                <div class="photo-frame">
-                    <img src="assets/Experience3.jpeg" alt="Database">
-                </div>
-                <div class="skill-info">
-                    <h4 class="skill-label">Committee</h4>
-                    <p class="skill-desc">🚀 Panitia (Desain, Administrasi, Edukasi)</p>
-                </div>
-            </div>
-        </div>
-
-        <style>
-            /* CSS SKILLS POLAROID TRIO */
-            .skill-container-row {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 40px;
-                width: 100%;
-                max-width: 1100px;
-                margin-top: 50px;
-            }
-
-            .skill-polaroid {
-                background: #ffffff;
-                padding: 15px 15px 30px 15px;
-                width: 280px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-                position: relative;
-                transition: transform 0.4s ease;
-                border: 1px solid #f0f0f0;
-            }
-
-            /* Efek miring bergantian agar estetik */
-            .skill-polaroid:nth-child(1) { transform: rotate(-2deg); }
-            .skill-polaroid:nth-child(2) { transform: rotate(1deg); }
-            .skill-polaroid:nth-child(3) { transform: rotate(-1.5deg); }
-
-            .skill-polaroid:hover {
-                transform: rotate(0deg) translateY(-15px);
-                z-index: 10;
-                box-shadow: 0 20px 40px rgba(123, 108, 246, 0.15);
-            }
-
-            .photo-frame {
-                width: 100%;
-                height: 200px;
-                overflow: hidden;
-                background: #f9f9f9;
-                border: 1px solid #eee;
-            }
-
-            .photo-frame img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: 0.5s;
-            }
-
-            .skill-polaroid:hover img {
-                transform: scale(1.1);
-            }
-
-            .skill-info {
-                text-align: center;
-                padding-top: 20px;
-            }
-
-            .skill-label {
-                font-family: 'Playfair Display', serif;
-                font-size: 1.3rem;
-                color: #7b6cf6;
-                margin: 0 0 10px 0;
-            }
-
-            .skill-desc {
-                font-family: 'Inter', sans-serif;
-                font-size: 0.9rem;
-                color: #666;
-                line-height: 1.5;
-                margin: 0;
-            }
-
-            /* Washi Tape Decor */
-            .washi-tape {
-                position: absolute;
-                top: -15px;
-                left: 50%;
-                transform: translateX(-50%) rotate(2deg);
-                width: 100px;
-                height: 30px;
-                background: rgba(255, 214, 224, 0.7); /* Pink */
-                backdrop-filter: blur(2px);
-                border-left: 2px dashed #ff9eb5;
-                border-right: 2px dashed #ff9eb5;
-                z-index: 2;
-            }
-
-            .washi-tape.color-blue { 
-                background: rgba(226, 240, 255, 0.7); 
-                border-color: #a2d2ff;
-                transform: translateX(-50%) rotate(-3deg);
-            }
-
-            .washi-tape.color-purple { 
-                background: rgba(208, 196, 255, 0.7); 
-                border-color: #b392f0;
-                transform: translateX(-50%) rotate(1deg);
-            }
-
-            /* Responsive */
-            @media (max-width: 768px) {
-                .skill-container-row { gap: 60px; }
-                .skill-polaroid { width: 90%; max-width: 300px; transform: rotate(0) !important; }
-            }
-        </style>
-    </section>
-
-<section id="contact" style="padding: 100px 5%; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh;">
-        
-        <h3 class="section-title">Get in Touch</h3>
-        <p class="handwritten" style="margin-bottom: 40px; font-size: 1.2rem;">Let's be friends! 💌</p>
-
-        <div class="contact-container">
-            <a href="mailto:nurafdhilahhuraiyahmasayu@gmail.com" class="contact-btn">
-                <span class="btn-text">Email</span>
-            </a>
-
-            <a href="https://instagram.com/dhila_hm" target="_blank" class="contact-btn">
-                <span class="btn-text">Instagram</span>
-            </a>
-
-            <a href="https://wa.me/6281223753341" target="_blank" class="contact-btn">
-                <span class="btn-text">WhatsApp</span>
-            </a>
-        </div>
-
-        <footer style="margin-top: 80px; padding-bottom: 40px; text-align: center;">
-    <p class="handwritten" style="opacity: 0.6; font-size: 1rem; letter-spacing: 1px;">
-        &copy; About Me 2026 — Dhila's Journal
-    </p>
-</footer>
-
-        <style>
-            /* CSS CONTACT BUTTONS */
-            .contact-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 20px;
-                width: 100%;
-                max-width: 800px;
-            }
-
-            .contact-btn {
-                text-decoration: none;
-                padding: 15px 45px;
-                border: 2px solid #ffd6e0; /* Warna outline pastel */
-                border-radius: 50px; /* Bentuk kapsul sempurna */
-                color: #7b6cf6;
-                font-family: 'Inter', sans-serif;
-                font-weight: 500;
-                font-size: 1.1rem;
-                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                background: transparent;
-                position: relative;
-                overflow: hidden;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-width: 160px;
-            }
-
-            /* Efek Hover (Interaktif) */
-            .contact-btn:hover {
-                background: #ffe5ec; /* Warna isi saat hover mirip contoh */
-                border-color: #ff9eb5;
-                transform: translateY(-5px);
-                box-shadow: 0 10px 20px rgba(255, 158, 181, 0.2);
-                color: #ff8fa3;
-            }
-
-            .btn-text {
-                position: relative;
-                z-index: 2;
-            }
-
-            /* Penyesuaian Mobile */
-            @media (max-width: 600px) {
-                .contact-btn {
-                    padding: 12px 30px;
-                    font-size: 0.9rem;
-                    min-width: 130px;
-                }
-                .contact-container {
-                    gap: 15px;
-                }
-            }
-        </style>
-    </section>
-
-<div id="sidebar" class="sidebar">
-        <div class="close-btn" onclick="toggleMenu()">✕</div>
-        <div class="sidebar-content">
-            <p class="handwritten" style="font-size: 1.2rem; color: #ff8fa3; margin-bottom: 10px;">Navigate to...</p>
-            <nav class="sidebar-links">
-                <a href="#aboutme" onclick="toggleMenu()">About Me</a>
-                <a href="#education" onclick="toggleMenu()">Educational Journey</a>
-                <a href="#favorite" onclick="toggleMenu()">My Favorite</a>
-                <a href="#skill" onclick="toggleMenu()">My Skill</a>
-                <a href="#contact" onclick="toggleMenu()">Contact</a>
-            </nav>
-            <div class="sidebar-footer">
-                <p>© 2026 Dhila's Journal 🌷</p>
-            </div>
+            <button class="btn-back-home" id="back-home-campus">Back to Home 🎀</button>
         </div>
     </div>
-<script>
-        function toggleMenu() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
-        }
-
-        // Hubungkan ke tombol MENU yang sudah ada
-        document.querySelector('.menu-btn').addEventListener('click', toggleMenu);
-    </script>
-
-<script>
-function toggleFunFact() {
-    const note = document.getElementById('funFactNote');
-    note.classList.toggle('show');
-}
-
-// Menutup note jika klik di luar area funfact
-window.onclick = function(event) {
-    if (!event.target.closest('.funfact-container')) {
-        const note = document.getElementById('funFactNote');
-        if (note.classList.contains('show')) {
-            note.classList.remove('show');
-        }
-    }
-}
-</script>
+</div>
 
 <div class="music-player-popup">
         <button id="musicToggle" class="music-btn" onclick="toggleMusic()">
             <span class="music-icon">🎵</span>
         </button>
         <audio id="myBgMusic" loop>
-            <source src="assets/Euphoria.mp3" type="audio/mpeg">
-        </audio>
+    <source src="assets/Euphoria.mp3" type="audio/mpeg"></audio>
     </div>
-
-<script>
-/* 1. FUNGSI MUSIK */
-
-const music = document.getElementById("myBgMusic");
-const musicBtn = document.getElementById("musicToggle");
-const musicIcon = document.querySelector(".music-icon");
-
-music.volume = 0.5; // Volume 50%
-
-function toggleMusic() {
-    if (music.paused) {
-        playMusic();
-    } else {
-        pauseMusic();
-    }
-}
-
-function playMusic() {
-    music.play().catch(error => {
-        console.log("Autoplay dicegah browser, perlu klik manual.");
-    });
-    musicBtn.classList.add("playing");
-    musicIcon.innerText = "⏸️";
-}
-
-function pauseMusic() {
-    music.pause();
-    musicBtn.classList.remove("playing");
-    musicIcon.innerText = "🎵";
-}
-
-/* Autoplay saat pertama klik halaman */
-document.addEventListener("click", function () {
-    if (music.paused) {
-        playMusic();
-    }
-}, { once: true });
-
-</script>
 
 </body>
 </html>
-
-
-
