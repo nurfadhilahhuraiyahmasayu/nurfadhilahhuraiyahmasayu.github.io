@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +41,7 @@
             position: fixed;
             left: 0; top: 0; z-index: 1000;
             transition: var(--transition);
-            transform: translateX(0); /* Default muncul */
+            transform: translateX(0); /* Default visible */
         }
 
         .sidebar.hidden { transform: translateX(-100%);
@@ -66,20 +66,20 @@
         .side-nav { list-style: none; flex-grow: 1; }
         .side-nav li {
             padding: 12px 0;
-            font-size: 13.5px; /* Sedikit dikecilkan agar muat satu baris */
+            font-size: 13.5px; /* Slightly reduced to fit in one line */
             font-weight: 500;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 12px;
             transition: 0.3s;
-            white-space: nowrap; /* Mencegah teks turun ke bawah */
+            white-space: nowrap; /* Prevent text wrapping to next line */
             overflow: hidden;
-            text-overflow: ellipsis; /* Kalau tetap kepanjangan akan jadi titik-titik (...) */
+            text-overflow: ellipsis; /* If still too long, show ellipsis (...) */
         }
         .side-nav li:hover { color: var(--text-purple); transform: translateX(5px); }
 
-        /* Ikon Ganti Teks di Sidebar */
+        /* Replace Text with Icons in Sidebar */
         .sidebar-socials {
             display: flex;
             gap: 20px;
@@ -94,13 +94,13 @@
         }
         .sidebar-socials a:hover { color: var(--text-purple); transform: scale(1.2); }
 
-        /* --- PERBAIKAN SIDEBAR MOBILE --- */
+        /* --- MOBILE SIDEBAR FIX --- */
 @media (max-width: 768px) {
-    /* 1. Bikin sidebar melayang di atas (Overlay) */
+    /* 1. Overlay sidebar on mobile */
     .sidebar {
-        width: 250px !important; /* Lebar yang pas buat HP */
+        width: 250px !important;
         position: fixed;
-        left: -250px; /* Sembunyi di kiri */
+        left: -250px; /* Hidden to the left */
         top: 0;
         height: 100%;
         z-index: 9999;
@@ -109,12 +109,12 @@
         background-color: white !important;
     }
 
-    /* 2. Saat toggle aktif, sidebar muncul */
+    /* 2. Show sidebar when toggle is active */
     .sidebar.active {
         left: 0;
     }
 
-    /* 3. Rapikan isi sidebar agar tidak mepet */
+    /* 3. Clean sidebar inner layout */
     .sidebar-content {
         padding: 20px;
         display: flex;
@@ -122,9 +122,9 @@
         height: 100%;
     }
 
-    /* 4. Ikon Sosmed di bawah sidebar biar rapi horizontal */
+    /* 4. Social icons at bottom of sidebar */
     .social-icons {
-        margin-top: auto; /* Dorong ke paling bawah */
+        margin-top: auto;
         display: flex;
         justify-content: space-around;
         padding: 20px 0;
@@ -136,7 +136,7 @@
         font-size: 20px;
     }
 
-    /* 5. Cegah konten utama kegeser-geser aneh */
+    /* 5. Prevent main content from shifting */
     .main-content {
         margin-left: 0 !important;
         width: 100% !important;
@@ -202,9 +202,9 @@
 
         .hero-text { 
             flex: 1; 
-            z-index: 10; /* Pastikan teks di atas agar tombol bisa diklik */
+            z-index: 10; /* Ensure text is above photo so button is clickable */
             position: relative;
-            max-width: 600px; /* Batasi lebar teks agar tidak menabrak foto */
+            max-width: 600px; /* Limit text width to prevent overlap with photo */
         }
         .hero-text h2 {
             font-family: 'Playfair Display', serif;
@@ -248,11 +248,11 @@
         @keyframes fotoMuncul {
             0% {
                 opacity: 0;
-                transform: translateX(100px); /* Mulai dari kanan luar */
+                transform: translateX(100px); /* Start from outside right */
             }
             100% {
                 opacity: 1;
-                transform: translateX(0); /* Berhenti di posisi pas */
+                transform: translateX(0); /* Stop at the right position */
             }
                 }
         .hero-photo img {
@@ -262,7 +262,7 @@
             filter: drop-shadow(-20px 0 30px rgba(0,0,0,0.05));
         }
 
-       /* --- SCRAPBOOK SECTION (REVISI POLAROID) --- */
+       /* --- SCRAPBOOK SECTION (POLAROID REVISION) --- */
         .biografi-section {
             min-height: 100vh;
             padding: 100px 10%;
@@ -286,7 +286,7 @@
             background: #fff;
             padding: 15px 15px 60px 15px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            transform: rotate(-4deg); /* Efek miring scrapbook */
+            transform: rotate(-4deg); /* Scrapbook tilt effect */
             transition: transform 0.4s ease;
         }
 
@@ -315,7 +315,7 @@
             z-index: 10;
         }
 
-        /* Kotak Teks Bio */
+        /* Bio Text Box */
         .bio-card {
             background: rgba(255, 255, 255, 0.5);
             padding: 20px;
@@ -347,14 +347,14 @@
             margin-top: 15px;
         }
 
-        /* Dekorasi Sticker */
+        /* Sticker Decoration */
         .sticker {
             position: absolute;
             font-size: 2.5rem;
             pointer-events: none;
         }
 
-        /* bagian funfact dan date time */
+        /* fun fact and date time section */
         .funfact-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -413,7 +413,7 @@
             border: 1px solid #eee;
         }
 
-        /* Klip Kertas */
+        /* Paper Clip */
         .paper-clip {
             position: absolute;
             top: -20px;
@@ -435,7 +435,7 @@
             margin-bottom: 30px;
         }
 
-        /* Tabel dengan Grid */
+        /* Table with Grid */
         .journey-table {
             display: grid;
             grid-template-columns: 1fr 2fr 1.2fr;
@@ -467,7 +467,7 @@
             margin-right: 12px;
         }
 
-        /* Badge Tahun */
+        /* Year Badge */
         .badge {
             padding: 6px 15px;
             border-radius: 20px;
@@ -646,7 +646,7 @@
         }
 
         .c-photo {
-            width: 80%; /* Sedikit dikecilkan agar terlihat menumpuk */
+            width: 80%; /* Slightly reduced to show stacking effect */
             height: 180px;
             object-fit: cover;
             border-radius: 8px;
@@ -758,7 +758,7 @@
             font-size: 1.6rem;
         }
 
-        /* Garis pembatas kecil warna unyu */
+        /* Small cute divider line */
         .divider-mini {
             width: 50px;
             height: 3px;
@@ -1023,7 +1023,7 @@
     border: 1px solid #eee;
 }
 
-        /* Efek miring scrapbook */
+        /* Scrapbook tilt effect */
         .c1 { transform: rotate(-2deg); }
         .c2 { transform: rotate(2deg); margin-top: 10px; }
         .c3 { transform: rotate(-1deg); }
@@ -1105,7 +1105,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Biar tombolnya aesthetic di pojok */
+        /* Keep button aesthetic in the corner */
         .music-player-popup {
             position: fixed;
             bottom: 20px;
@@ -1124,13 +1124,13 @@
             font-size: 20px;
         }
 
-        /* Bagian Kursor*/
-        /* 1. KURSOR UTAMA (TULIP 🌷) */
+        /* Cursor Section*/
+        /* 1. MAIN CURSOR (TULIP 🌷) */
         html, body {
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='20'>🌷</text></svg>"), auto !important;
         }
 
-        /* 2. KURSOR INTERAKSI (SAKURA 🌸) */
+        /* 2. INTERACTIVE CURSOR (SAKURA 🌸) */
         a, 
         button, 
         .sidebar a,
@@ -1228,7 +1228,7 @@
                 <h2>Nurfadhilah<br>Huraiyah<br>Masayu</h2>
                 <p style="font-size: 20px; margin-bottom: 25px; font-family: Bodoni Moda, serif;">Let's see and Know Me ✨</p>
                 
-                <a href="#aboutme" class="btn-kenalan">Kenalan Yuk 🌸</a>
+                <a href="#aboutme" class="btn-kenalan">Let's Connect 🌸</a>
 
                 <div style="border-left: 2px solid var(--accent-pink); padding-left: 20px; font-family: Bodoni Moda; color: #888;">
                     "Where curiosity meets calm, silence guards the most beautiful truths... ˚˖𓍢ִႋ🌷͙֒✧🩷˚.🎀༘⋆🍒"
@@ -1253,10 +1253,10 @@
                 <span class="sticker" style="top: -20px; right: 0;">🌸</span>
                 <h3>About Me</h3>
                 <p>
-                    Halo! Nama lengkapku <strong>Nurfadhilah Huraiyah Masayu</strong>. Biasanya dipanggil Dhila, aku adalah mahasiswi <strong>Sistem Informasi</strong> yang senang memadukan logika data dengan keindahan visual.
+                    Hi! My full name is <strong>Nurfadhilah Huraiyah Masayu</strong>. Usually called Dhila, I'm an <strong>Information Systems</strong> student who loves blending data logic with visual aesthetics.
                 </p>
                 <p>
-                   "Bisa coding dong berarti" hehehe honestly masih belajar step by step. Tentang hobi, hobiku banyak.. suka masak, mendengarkan musik, nonton film/movie, suka desain/edit kalau lagi gabut:), kadang juga meluangkan waktu untuk pergi jalan (yap traveling, biasanya ke pantai).
+                   "So you can code then?" hehe honestly still learning step by step. As for hobbies, I have many — I love cooking, listening to music, watching movies, designing/editing when I'm free 🙂, and sometimes I make time to go out (yep, traveling — usually to the beach).
                 </p>
                 
                 <span class="handwritten">"Let's grow and shine together... 🎀"</span>
@@ -1272,7 +1272,7 @@
     <div class="paper-container">
         <div class="paper-clip">📎</div>
         
-        <h3 class="journey-subtitle">Riwayat Pendidikan 📖</h3>
+        <h3 class="journey-subtitle">Education History 📖</h3>
         <div class="dashed-line"></div>
 
         <div class="journey-table">
@@ -1379,7 +1379,7 @@
             </div>
             <div class="skill-info">
                 <h3>STEM Project</h3>
-                <p>🎓 Pengalaman Project STEM (CoSpace animation, Figma, Poster)</p>
+                <p>🎓 STEM Project experience (CoSpace animation, Figma, Poster design)</p>
             </div>
         </div>
 
@@ -1389,7 +1389,7 @@
             </div>
             <div class="skill-info">
                 <h3>Young Graphic Design Training</h3>
-                <p>📌 Pelatihan Desain grafis (Adobe Photoshop, CorelDraw, Canva, Desain Brief)</p>
+                <p>📌 Graphic Design Training (Adobe Photoshop, CorelDraw, Canva, Design Brief)</p>
             </div>
         </div>
 
@@ -1399,7 +1399,7 @@
             </div>
             <div class="skill-info">
                 <h3>Committee</h3>
-                <p>🚀 Panitia (Desain, Administrasi, Edukasi)</p>
+                <p>🚀 Committee member (Design, Administration, Education)</p>
             </div>
         </div>
     </div>
@@ -1418,7 +1418,7 @@
                 <div class="divider-mini"></div>
                 
                 <p>
-                    Wireframe ini merupakan kerangka awal desain yang menampilkan susunan elemen secara terstruktur dengan pendekatan visual scrapbook. Setiap komponen dirancang untuk menjaga keseimbangan antara fungsi dan estetika, sehingga menghasilkan pengalaman pengguna yang nyaman dan menarik.
+                    This wireframe is the initial design framework displaying a structured layout of elements with a scrapbook visual approach. Each component is designed to maintain balance between function and aesthetics, resulting in a comfortable and engaging user experience.
                 </p>
                 
                 <a href="assets/WireframeNurfadhilah.pdf" target="_blank" class="btn-view-pdf">
@@ -1443,10 +1443,10 @@
     const mainContent = document.getElementById('mainContent');
     const toggleBtn = document.getElementById('toggleBtn');
 
-    // Menambah/menghapus class hidden
+    // Toggle hidden class
     sidebar.classList.toggle('hidden');
     
-    // Menyesuaikan margin konten saat sidebar hilang
+    // Adjust content margin when sidebar is hidden
     if (sidebar.classList.contains('hidden')) {
         topBar.style.left = "0";
         mainContent.style.marginLeft = "0";
@@ -1458,30 +1458,30 @@
     }
 }
 
-// FUNGSI UPDATE TANGGAL & WAKTU
+// DATE // FUNGSI UPDATE TANGGAL & WAKTU TIME UPDATE FUNCTION
 function updateDateTime() {
     const now = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     
-    // Format Indonesia
+    // Indonesian locale format
     document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', options);
     document.getElementById('current-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
-// Jalankan waktu tiap detik
+// Update every second
 setInterval(updateDateTime, 1000);
 updateDateTime();
 
-// FUNGSI POP UP FUN FACT DENGAN KOLASE FOTO (DIPERBARUI)
+// FUN FACT POPUP WITH PHOTO COLLAGE (UPDATED)
 function showFunFact() {
-    // Membuat element pop up secara otomatis
+    // Create popup element dynamically
     const overlay = document.createElement('div');
     overlay.className = 'funfact-overlay';
     overlay.id = 'funfactOverlay';
     overlay.style.display = 'flex';
     
-    // -- KOLASE FOTO (Tentukan 3 URL Fotomu di Sini) --
-    // Ganti URL dengan foto perjalanan/hobi kamu agar lebih personal
+    // -- PHOTO COLLAGE (Set your 3 photo URLs here) --
+    // Replace URLs with your travel/hobby photos for a more personal touch
     const photo1 = 'assets/Photo1pantai.jpeg'; 
     const photo2 = 'assets/Photo1langit.jpeg'; // Contoh kalau yang satu formatnya png
     const photo3 = 'assets/Photo3pantai.jpeg';
@@ -1503,7 +1503,7 @@ function showFunFact() {
 
             <p style="font-size: 14px; color: #555; line-height: 1.6;">“Di balik indahnya sunset, ada momen di mana matahari “berpamitan”, meninggalkan langit dengan warna hangat yang hanya bisa dinikmati sesaat.🌅🌊”</p>
             
-            <button class="close-btn" style="margin-top: 25px;" onclick="document.body.removeChild(this.parentElement.parentElement)">TUTUP 🎀</button>
+            <button class="close-btn" style="margin-top: 25px;" onclick="document.body.removeChild(this.parentElement.parentElement)">CLOSE 🎀</button>
         </div>
     `;
     
@@ -1515,24 +1515,86 @@ document.addEventListener("DOMContentLoaded", function() {
     const btn = document.getElementById("open-portfolio");
     const span = document.querySelector(".close-modal");
 
-    // Buka Modal
+    // Open Modal
     btn.onclick = function(e) {
         e.preventDefault();
         modal.style.display = "flex";
+        closePortfolioCategory(); // reset to category view
     }
 
-    // Tutup pakai X
+    // Close with X button
     span.onclick = function() {
         modal.style.display = "none";
     }
 
-    // Tutup kalau klik luar area modal
+    // Close when clicking outside modal area
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
 });
+
+// Portfolio category data
+const portfolioData = {
+    poster: {
+        title: "Poster 🎨",
+        items: [
+            { img: "assets/Poster Konser Kampus Nurfadhilah H.jpg", caption: "Campus Concert Poster", desc: "Event poster design for campus concert" },
+            { img: "assets/Poster Konser Kampus Nurfadhilah H.jpg", caption: "Graphic Design Work", desc: "Visual design using Canva & Photoshop" },
+        ]
+    },
+    website: {
+        title: "Project Website 💻",
+        items: [
+            { img: "assets/WhatsApp Image 2026-03-27 at 15.38.04.jpeg", caption: "Personal Portfolio", desc: "This portfolio website — built with HTML, CSS & JS" },
+            { img: "assets/WhatsApp Image 2026-03-27 at 15.38.04.jpeg", caption: "Web Project", desc: "Responsive web layout design" },
+        ]
+    },
+    uidesign: {
+        title: "UI Design 📱",
+        items: [
+            { img: "assets/WhatsApp Image 2026-03-27 at 15.38.04.jpeg", caption: "UI/UX Prototype", desc: "Mobile app design prototype in Figma" },
+            { img: "assets/WhatsApp Image 2026-03-27 at 15.38.04.jpeg", caption: "App Interface", desc: "Clean interface design with focus on usability" },
+        ]
+    }
+};
+
+const tapeColors = ["#fde2e4", "#d0c4ff", "#add8e6", "#fde2e4", "#d0c4ff"];
+const rotations = [-2, 2, -1.5, 2.5, -1];
+
+function openPortfolioCategory(cat) {
+    document.getElementById('portfolio-categories').style.display = 'none';
+    document.getElementById('portfolio-swipe').style.display = 'block';
+
+    const data = portfolioData[cat];
+    document.getElementById('swipe-category-title').textContent = data.title;
+
+    const wrapper = document.getElementById('portfolio-scroll-wrapper');
+    wrapper.innerHTML = '';
+
+    data.items.forEach((item, i) => {
+        const card = document.createElement('div');
+        card.className = 'porto-swipe-card';
+        card.style.transform = `rotate(${rotations[i % rotations.length]}deg)`;
+        if (i % 2 === 1) card.style.marginTop = '12px';
+
+        card.innerHTML = `
+            <div class="washi-tape-${i % 2 === 0 ? 'pink' : 'blue'}"></div>
+            <div class="porto-swipe-frame">
+                <img src="${item.img}" alt="${item.caption}">
+            </div>
+            <p class="porto-swipe-caption">${item.caption}</p>
+            <p class="porto-swipe-desc">${item.desc}</p>
+        `;
+        wrapper.appendChild(card);
+    });
+}
+
+function closePortfolioCategory() {
+    document.getElementById('portfolio-categories').style.display = 'block';
+    document.getElementById('portfolio-swipe').style.display = 'none';
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     const campusModal = document.getElementById('campuslife-pop');
@@ -1542,7 +1604,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if(btnOpenCampus && campusModal) {
         btnOpenCampus.onclick = function(e) {
             e.preventDefault();
-            console.log("Tombol Campus Life diklik!"); // Cek di Inspect Element > Console
+            console.log("Campus Life button clicked!");
             campusModal.style.display = "flex";
         };
     }
@@ -1571,13 +1633,13 @@ function toggleMusic() {
     }
 }
 
-// 2. FUNGSI AUTOPLAY (Jalan pas user klik mana saja pertama kali)
+// 2. AUTOPLAY FUNCTION (Runs on first user click anywhere)
 document.addEventListener('click', function() {
     const music = document.getElementById("myBgMusic");
     const btn = document.getElementById("musicToggle");
     const icon = btn.querySelector(".music-icon");
 
-    // Jika musik belum jalan, kita jalankan otomatis
+    // If music is not playing, start it automatically
     if (music.paused) {
         music.play().then(() => {
             icon.innerText = "⏸️";
@@ -1586,39 +1648,146 @@ document.addEventListener('click', function() {
             console.log("Autoplay dicegah, butuh interaksi user.");
         });
     }
-}, { once: true }); // Tetap pakai once: true agar tidak mengganggu klik selanjutnya
+}, { once: true }); // Using once: true so it does not interfere with subsequent clicks
     </script>
 
 <div id="portofolioModal" class="modal-overlay">
-    <div class="modal-paper">
+    <div class="modal-paper" style="max-width: 760px;">
         <span class="close-modal">&times;</span>
-        
         <div class="tape-header"></div>
         
         <div class="modal-content">
-            <h2 class="handwritten-title">My Creative Works ✨</h2>
-            <p style="color: #666; font-size: 13px; margin-bottom: 30px;">Some of my design journey...</p>
+            <!-- CATEGORY VIEW -->
+            <div id="portfolio-categories">
+                <h2 class="handwritten-title">My Creative Works ✨</h2>
+                <p style="color: #666; font-size: 13px; margin-bottom: 28px;">Choose a category to explore ↓</p>
 
-            <div class="scrapbook-gallery">
-                <div class="gallery-item p1 h-poster">
-                    <div class="washi-tape-pink"></div>
-                    <div class="polaroid-frame">
-                        <img src="assets/Poster Konser Kampus Nurfadhilah H.jpg" alt="Poster Design">
-                        <p class="caption">Design Poster</p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+
+                    <div class="porto-cat-card" onclick="openPortfolioCategory('poster')">
+                        <div class="porto-cat-tape" style="background:#fde2e4;"></div>
+                        <div class="porto-cat-icon">🎨</div>
+                        <h3 class="porto-cat-title">Poster</h3>
+                        <p class="porto-cat-desc">Design posters &amp; visual graphics</p>
                     </div>
+
+                    <div class="porto-cat-card" onclick="openPortfolioCategory('website')">
+                        <div class="porto-cat-tape" style="background:#d0c4ff;"></div>
+                        <div class="porto-cat-icon">💻</div>
+                        <h3 class="porto-cat-title">Project Website</h3>
+                        <p class="porto-cat-desc">Web design &amp; development projects</p>
+                    </div>
+
+                    <div class="porto-cat-card" onclick="openPortfolioCategory('uidesign')">
+                        <div class="porto-cat-tape" style="background:#add8e6;"></div>
+                        <div class="porto-cat-icon">📱</div>
+                        <h3 class="porto-cat-title">UI Design</h3>
+                        <p class="porto-cat-desc">User interface &amp; UX prototypes</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SWIPE VIEW (hidden by default) -->
+            <div id="portfolio-swipe" style="display:none;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
+                    <button onclick="closePortfolioCategory()" style="background:none; border:none; font-size:22px; cursor:pointer; color:#7a77d1;">←</button>
+                    <h2 class="handwritten-title" id="swipe-category-title" style="margin-bottom:0;"></h2>
                 </div>
 
-                <div class="gallery-item p2 h-poster">
-                    <div class="washi-tape-blue"></div>
-                    <div class="polaroid-frame">
-                        <img src="assets/WhatsApp Image 2026-03-27 at 15.38.04.jpeg" alt="UI Design">
-                        <p class="caption">UI/UX Design</p>
+                <div class="swipe-instruction">
+                    <i class="fa-solid fa-arrows-left-right"></i>
+                    <span>Swipe to Browse</span>
+                    <div class="swipe-line"></div>
+                </div>
+
+                <div class="scroll-container" style="margin-top:10px;">
+                    <div class="scroll-wrapper" id="portfolio-scroll-wrapper">
+                        <!-- Cards injected by JS -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Portfolio Category Cards */
+.porto-cat-card {
+    width: 175px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 28px 16px 22px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 5px 5px 0px rgba(0,0,0,0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: visible;
+}
+.porto-cat-card:hover {
+    transform: translateY(-6px) rotate(-1deg);
+    box-shadow: 8px 10px 0px rgba(122,119,209,0.15);
+}
+.porto-cat-tape {
+    position: absolute;
+    top: -14px; left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 70px; height: 22px;
+    opacity: 0.75;
+    border-radius: 2px;
+}
+.porto-cat-icon { font-size: 2.4rem; margin-bottom: 10px; display:block; }
+.porto-cat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #7a77d1;
+    margin-bottom: 6px;
+}
+.porto-cat-desc {
+    font-size: 0.78rem;
+    color: #999;
+    line-height: 1.4;
+}
+
+/* Portfolio swipe item cards */
+.porto-swipe-card {
+    flex: 0 0 auto;
+    width: 200px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+.porto-swipe-card:hover { transform: scale(1.04) rotate(0deg) !important; z-index: 5; }
+.porto-swipe-frame {
+    background: white;
+    padding: 10px 10px 38px;
+    border-radius: 3px;
+    box-shadow: 5px 8px 18px rgba(0,0,0,0.1);
+}
+.porto-swipe-frame img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 2px;
+    border: 1px solid #eee;
+}
+.porto-swipe-caption {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: #7a77d1;
+    font-weight: bold;
+    margin: 8px 0 3px;
+    text-align: center;
+}
+.porto-swipe-desc {
+    font-size: 11px;
+    color: #888;
+    text-align: center;
+    line-height: 1.4;
+    padding: 0 4px;
+}
+</style>
 
 <div id="campuslife-pop" class="modal-overlay">
     <div class="modal-paper campus-paper">
